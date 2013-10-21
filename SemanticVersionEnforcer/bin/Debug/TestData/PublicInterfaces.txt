@@ -1,0 +1,98 @@
+﻿using System.Runtime;
+using System.Runtime.ConstrainedExecution;
+using System.Runtime.InteropServices;
+using System.Security;
+
+namespace TestData
+{
+    // Summary:
+    //     Supports all classes in the .NET Framework class hierarchy and provides low-level
+    //     services to derived classes. This is the ultimate base class of all classes
+    //     in the .NET Framework; it is the root of the type hierarchy.
+    [Serializable]
+    [ClassInterface(ClassInterfaceType.AutoDual)]
+    [ComVisible(true)]
+    public class TestData
+    {
+        // Summary:
+        //     Initializes a new instance of the System.Object class.
+        [ReliabilityContract(Consistency.WillNotCorruptState, Cer.MayFail)]
+        public Object();
+
+        // Summary:
+        //     Determines whether the specified System.Object is equal to the current System.Object.
+        //
+        // Parameters:
+        //   obj:
+        //     The object to compare with the current object.
+        //
+        // Returns:
+        //     true if the specified object is equal to the current object; otherwise, false.
+        [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
+        public virtual bool Equals(object obj);
+        //
+        // Summary:
+        //     Determines whether the specified object instances are considered equal.
+        //
+        // Parameters:
+        //   objA:
+        //     The first object to compare.
+        //
+        //   objB:
+        //     The second object to compare.
+        //
+        // Returns:
+        //     true if the objects are considered equal; otherwise, false. If both objA
+        //     and objB are null, the method returns true.
+        [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
+        public static bool Equals(object objA, object objB);
+        //
+        // Summary:
+        //     Serves as a hash function for a particular type.
+        //
+        // Returns:
+        //     A hash code for the current System.Object.
+        [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
+        public virtual int GetHashCode();
+        //
+        // Summary:
+        //     Gets the System.Type of the current instance.
+        //
+        // Returns:
+        //     The exact runtime type of the current instance.
+        [SecuritySafeCritical]
+        public Type GetType();
+        //
+        // Summary:
+        //     Creates a shallow copy of the current System.Object.
+        //
+        // Returns:
+        //     A shallow copy of the current System.Object.
+        [SecuritySafeCritical]
+        protected object MemberwiseClone();
+        //
+        // Summary:
+        //     Determines whether the specified System.Object instances are the same instance.
+        //
+        // Parameters:
+        //   objA:
+        //     The first object to compare.
+        //
+        //   objB:
+        //     The second object to compare.
+        //
+        // Returns:
+        //     true if objA is the same instance as objB or if both are null; otherwise,
+        //     false.
+        [ReliabilityContract(Consistency.WillNotCorruptState, Cer.Success)]
+        [TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")]
+        public static bool ReferenceEquals(object objA, object objB);
+        //
+        // Summary:
+        //     Returns a string that represents the current object.
+        //
+        // Returns:
+        //     A string that represents the current object.
+        public virtual string ToString();
+    }
+}

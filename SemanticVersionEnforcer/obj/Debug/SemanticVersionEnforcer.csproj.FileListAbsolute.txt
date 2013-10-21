@@ -1,0 +1,13 @@
+C:\Users\Aidan\dev\VS2013\SemanticVersionEnforcer\SemanticVersionEnforcer\bin\Debug\SemanticVersionEnforcer.dll
+C:\Users\Aidan\dev\VS2013\SemanticVersionEnforcer\SemanticVersionEnforcer\bin\Debug\SemanticVersionEnforcer.pdb
+C:\Users\Aidan\dev\VS2013\SemanticVersionEnforcer\SemanticVersionEnforcer\bin\Debug\Microsoft.Web.XmlTransform.dll
+C:\Users\Aidan\dev\VS2013\SemanticVersionEnforcer\SemanticVersionEnforcer\bin\Debug\NuGet.Core.dll
+C:\Users\Aidan\dev\VS2013\SemanticVersionEnforcer\SemanticVersionEnforcer\bin\Debug\nunit.framework.dll
+C:\Users\Aidan\dev\VS2013\SemanticVersionEnforcer\SemanticVersionEnforcer\bin\Debug\nunit.framework.xml
+C:\Users\Aidan\dev\VS2013\SemanticVersionEnforcer\SemanticVersionEnforcer\obj\Debug\SemanticVersionEnforcer.csprojResolveAssemblyReference.cache
+C:\Users\Aidan\dev\VS2013\SemanticVersionEnforcer\SemanticVersionEnforcer\obj\Debug\SemanticVersionEnforcer.dll
+C:\Users\Aidan\dev\VS2013\SemanticVersionEnforcer\SemanticVersionEnforcer\obj\Debug\SemanticVersionEnforcer.pdb
+C:\Users\Aidan\dev\VS2013\SemanticVersionEnforcer\SemanticVersionEnforcer\bin\Debug\Moq.dll
+C:\Users\Aidan\dev\VS2013\SemanticVersionEnforcer\SemanticVersionEnforcer\bin\Debug\Moq.xml
+C:\Users\Aidan\dev\VS2013\SemanticVersionEnforcer\SemanticVersionEnforcer\bin\Debug\TestData\nunit.framework.2.6.2.dll
+C:\Users\Aidan\dev\VS2013\SemanticVersionEnforcer\SemanticVersionEnforcer\bin\Debug\TestData\PublicInterfaces.txt
