@@ -44,7 +44,7 @@ namespace SemanticVersionEnforcer
             }
             
         }
-
+		
         public Version DetermineCorrectSemanticVersion(IPackage oldPackage, IPackage newPackage)
         {
             ISet<MethodDescriptor> publicMethodsInOldPackage = EnumeratePublicMethods(oldPackage);
@@ -54,23 +54,22 @@ namespace SemanticVersionEnforcer
             //oldPackage.Version.Version;
             foreach (MethodDescriptor methodInfo in publicMethodsInNewPackage)
             {
-                var oldM = publicMethodsInOldPackage.First();
-                var newM = methodInfo;
-                var newHash = methodInfo.GetHashCode();
-                var oldHash = publicMethodsInOldPackage.First().GetHashCode();
-                //Console.WriteLine(methodInfo.GetHashCode());
-                //Console.WriteLine(publicMethodsInOldPackage.First().GetHashCode());
                 //If there is public methods in the old packge not in the new then instant swith
-                if (!publicMethodsInNewPackage.Contains(methodInfo))
-                {
-                    return new Version(semanticVersion.Major, 0);
-                }
                 
                 if (!publicMethodsInOldPackage.Contains(methodInfo))
                 {
                     semanticVersion = new Version(oldPackage.Version.Version.Major, oldPackage.Version.Version.Minor + 1);
                 }
             }
+
+			foreach (MethodDescriptor methodInfo in publicMethodsInOldPackage)
+			{
+				if (!publicMethodsInNewPackage.Contains(methodInfo))
+				{
+					return new Version(semanticVersion.Major+1, 0);
+				}
+                
+			}
             return semanticVersion;
         }
 
@@ -103,10 +102,9 @@ namespace SemanticVersionEnforcer
             SortedSet<ComparableType> types = new SortedSet<ComparableType>();
             foreach (IPackageFile file in package.GetFiles())
             {
-                var fileName = file.ToString();
+				var fileName = file.EffectivePath;
                 if (file.EffectivePath.EndsWith(".dll", StringComparison.OrdinalIgnoreCase))
                 {
-                    Console.WriteLine(file.ToString());
                     Assembly assembly = Assembly.Load(file.GetStream().ReadAllBytes());
                     foreach (var type in assembly.GetTypes())
                     {
