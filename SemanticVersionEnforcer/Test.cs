@@ -31,6 +31,8 @@ namespace SemanticVersionEnforcer
         #endregion
 
         #region MinorVersion Should Increment
+
+        #region Abstract Classes
         [Test]
         public void GivenTwoPackages_WhenTheNewerOneContainsAdditionalAbstractClasses_ItShouldHaveItsMinorVersionIncremented()
         {
@@ -69,7 +71,9 @@ namespace SemanticVersionEnforcer
             SemanticVersionChecker checker = new SemanticVersionChecker();
             Assert.AreEqual(new Version(2, 4), checker.DetermineCorrectSemanticVersion(oldPackage.Object, newPackage.Object));
         }
-        
+        #endregion
+
+        #region Regular methods/classes
         [Test]
 		public void GivenTwoPackages_WhenTheNewerOneContainsAdditionalPublicMethods_ItShouldHaveItsMinorVersionIncremented()
 		{
@@ -108,11 +112,54 @@ namespace SemanticVersionEnforcer
 			SemanticVersionChecker checker = new SemanticVersionChecker();
 			Assert.AreEqual(new Version(2, 4), checker.DetermineCorrectSemanticVersion(oldPackage.Object, newPackage.Object));
 		}
+        #endregion
 
-		#endregion
+        #region Interfaces
 
-		#region SameVersion
+        [Test]
+        public void GivenTwoPackages_WhenTheNewOneContainsTheSameInterfaceWithAdditonalMethods_ItShouldIncrementTheMinorVersion()
+        {
+            String oldSource = "interface x { string GetSomething(); }";
+            String newSource = "interface x { string GetSomething(); int SomethingElse();}";
 
+            int oldMajor = 2;
+            int oldMinor = 3;
+            int newMajor = 2;
+            int newMinor = 4;
+
+            Mock<IPackage> oldPackage;
+            Mock<IPackage> newPackage;
+            SetupMocks(new List<String> { oldSource }, new List<String> { newSource }, oldMajor, oldMinor, newMajor, newMinor, out oldPackage, out newPackage);
+
+            SemanticVersionChecker checker = new SemanticVersionChecker();
+            Assert.AreEqual(new Version(newMajor, newMinor), checker.DetermineCorrectSemanticVersion(oldPackage.Object, newPackage.Object));
+        }
+        [Test]
+        public void GivenTwoPackages_WhenTheNewOneContainsAnAdditionalInterface_ItShouldIncrementTheMinorVersion()
+        {
+            String oldSource = "interface x { string GetSomething(); }";
+            String newSource = "interface x { string GetSomething(); }";
+            String newSource2 = "interface y { string GetSomethingElse(); }";
+
+            int oldMajor = 2;
+            int oldMinor = 3;
+            int newMajor = 2;
+            int newMinor = 4;
+
+            Mock<IPackage> oldPackage;
+            Mock<IPackage> newPackage;
+            SetupMocks(new List<String> { oldSource }, new List<String> { newSource, newSource2 }, oldMajor, oldMinor, newMajor, newMinor, out oldPackage, out newPackage);
+
+            SemanticVersionChecker checker = new SemanticVersionChecker();
+            Assert.AreEqual(new Version(newMajor, newMinor), checker.DetermineCorrectSemanticVersion(oldPackage.Object, newPackage.Object));
+        }
+        #endregion 
+
+        #endregion
+
+        #region SameVersion
+
+        #region Abstract Classes
         [Test]
         public void GivenTwoPackages_WhenTheyBothContainTheSameAbstractClass_ItShouldHaveTheySameVersionNumbers()
         {
@@ -132,7 +179,10 @@ namespace SemanticVersionEnforcer
             Assert.AreEqual(new Version(2, 3), checker.DetermineCorrectSemanticVersion(oldPackage.Object, newPackage.Object));
 
         }
-        
+
+        #endregion
+
+        #region Interfaces
         [Test]
         public void GivenTwoPackages_WhenTheyBothContainTheSameInterfaces_ItShouldHaveTheSameVersion()
         { 
@@ -151,7 +201,10 @@ namespace SemanticVersionEnforcer
             SemanticVersionChecker checker = new SemanticVersionChecker();
             Assert.AreEqual(new Version(2, 3), checker.DetermineCorrectSemanticVersion(oldPackage.Object, newPackage.Object));
         }
-		[Test]
+        #endregion
+
+        #region Private Methods
+        [Test]
 		public void GivenTwoPackages_WhenTheNewerOneContainsAdditionalPrivateMethods_ItShouldHaveTheSameVersion()
 		{
 			String oldSource = "public class B { public void hello() { int x=7; } }";
@@ -169,9 +222,11 @@ namespace SemanticVersionEnforcer
             SemanticVersionChecker checker = new SemanticVersionChecker();
 			Assert.AreEqual(new Version(2, 3), checker.DetermineCorrectSemanticVersion(oldPackage.Object, newPackage.Object));
 		}
+        #endregion
 
+        #region Private Classes
 
-		[Test]
+        [Test]
 		public void GivenTwoPackages_WhenTheNewerOneContainsAdditionalPrivateClasses_ItShouldHaveTheSameVersion()
 		{
 			String oldSource = "public class B { public void hello() { int x=7; } }";
@@ -190,11 +245,13 @@ namespace SemanticVersionEnforcer
             SemanticVersionChecker checker = new SemanticVersionChecker();
 			Assert.AreEqual(new Version(2, 3), checker.DetermineCorrectSemanticVersion(oldPackage.Object, newPackage.Object));
 		}
+        #endregion
 
-		[Test]
+        #region DLLs read from filesystem
+        [Test]
 		public void GivenTwoIdenticalPackages_WhenTheSemanticVersionIsCalculated_ItShouldBeTheSameVersionAsTheOldOne()
 		{
-			//IPackageRepository repo = PackageRepositoryFactory.Default.CreateRepository("C:\\Users\\Aidan\\AppData\\Local\\NuGet\\Cache");
+			//IPackageRepository repo = PackageRepositoryFactory.Default.CreateRepository("C:\\Users\\xxx\\AppData\\Local\\NuGet\\Cache");
 			//IPackageRepository repo = PackageRepositoryFactory.Default.CreateRepository("https://packages.nuget.org/api/v2");
 			//IPackage oldPackage = repo.FindPackage("NUnit", new SemanticVersion("2.6.2"));
 			//IPackage newPackage = repo.FindPackage("NUnit", new SemanticVersion("2.6.2"));
@@ -223,9 +280,9 @@ namespace SemanticVersionEnforcer
 			Assert.AreEqual(new Version(2, 6), checker.DetermineCorrectSemanticVersion(mockPackage.Object, newMockPackage.Object));
 
 		}
+        #endregion
 
-		
-		[Test]
+        [Test]
 		public void GivenTwoPackages_WhenTheyAreTheSame_ItShouldHaveTheSameMajorAndMinorVersion()
 		{
             String oldSource = "public class B { public void hello() { int x=7; } }";
@@ -246,8 +303,9 @@ namespace SemanticVersionEnforcer
 		#endregion
 
 		#region Increment Major Version
-		
-		[Test]
+
+        #region Different packages
+        [Test]
 		public void GivenTwoPackages_WhenTheyAreCompletelyDifferent_ItShouldIncrementTheMajorVersionAndResetTheMinor()
 		{
 			String oldSource = "public class B { public void hello() { int x=7; } }";
@@ -265,7 +323,9 @@ namespace SemanticVersionEnforcer
 			SemanticVersionChecker checker = new SemanticVersionChecker();
 			Assert.AreEqual(new Version(3, 0), checker.DetermineCorrectSemanticVersion(oldPackage.Object, newPackage.Object));
 		}
+        #endregion
 
+        #region Public Methods
         [Test]
         public void GivenTwoPackages_WhenTheOlderOneContainsAdditionalPublicMethods_ItShouldIncrementTheMajorAndResetTheMinor()
         {
@@ -285,14 +345,16 @@ namespace SemanticVersionEnforcer
             Assert.AreEqual(new Version(3, 0), checker.DetermineCorrectSemanticVersion(oldPackage.Object, newPackage.Object));
 
         }
-        
+        #endregion
+
+        #region Interfaces
         [Test]
         public void GivenTwoPackages_WhenTheOlderOneContainsAdditionalInterfaces_ItShouldIncrementTheMajorAndResetTheMinor()
         {
             String oldSource1 = "interface x { string GetSomething(); }";
             String oldSource2 = "public class B { public void hello() { int x=7; } public void hello2() { int x=7; } }";
             String newSource = "public class B { public void hello() { int x=7; } public void hello2() { int x=7; } }";
-            
+
             int oldMajor = 2;
             int oldMinor = 3;
             int newMajor = 3;
@@ -306,9 +368,30 @@ namespace SemanticVersionEnforcer
             Assert.AreEqual(new Version(3, 0), checker.DetermineCorrectSemanticVersion(oldPackage.Object, newPackage.Object));
 
         }
-
         [Test]
-        public void GivenTwoPackages_WhenTheOlderOneContainsAdditionalPublicMethodsInAnAbstractClass_ItShouldIncrementTheMajorAndResetTheMinor()
+        public void GivenTwoPackages_WhenTheOlderOneContainsAdditionalMethodsOnAnInterface_ItShouldIncrementTheMajorAndResetTheMinor()
+        {
+            String oldSource1 = "interface x { string GetSomething(); string GetSomething2(); }";
+            String newSource = "interface x { string GetSomething();  }";
+
+            int oldMajor = 2;
+            int oldMinor = 3;
+            int newMajor = 3;
+            int newMinor = 0;
+
+            Mock<IPackage> oldPackage;
+            Mock<IPackage> newPackage;
+            SetupMocks(new List<String> { oldSource1 }, new List<String> { newSource }, oldMajor, oldMinor, newMajor, newMinor, out oldPackage, out newPackage);
+
+            SemanticVersionChecker checker = new SemanticVersionChecker();
+            Assert.AreEqual(new Version(3, 0), checker.DetermineCorrectSemanticVersion(oldPackage.Object, newPackage.Object));
+
+        }
+        #endregion
+
+        #region Abstract Classes
+        [Test]
+        public void GivenTwoPackages_WhenTheOlderOneContainsAdditionalPublicAbstractClass_ItShouldIncrementTheMajorAndResetTheMinor()
         {
             String oldSource1 = "public abstract class abstractClass { public abstract void blah(); }";
             String oldSource2 = "public class B { public void hello() { int x=7; } public void hello2() { int x=7; } }";
@@ -327,7 +410,31 @@ namespace SemanticVersionEnforcer
             Assert.AreEqual(new Version(3, 0), checker.DetermineCorrectSemanticVersion(oldPackage.Object, newPackage.Object));
 
         }
-		#endregion
+
+        [Test]
+        public void GivenTwoPackages_WhenTheOlderOneContainsAdditionalPublicMethodsInAnAbstractClass_ItShouldIncrementTheMajorAndResetTheMinor()
+        {
+            String oldSource1 = "public abstract class abstractClass { public abstract void blah(); public abstract void blahBlah(); }";
+            String oldSource2 = "public class B { public void hello() { int x=7; } public void hello2() { int x=7; } }";
+            String newSource1 = "public abstract class abstractClass2 { public abstract void blah(); }";
+            String newSource2 = "public class B { public void hello() { int x=7; } public void hello2() { int x=7; } }";
+            
+            int oldMajor = 2;
+            int oldMinor = 3;
+            int newMajor = 3;
+            int newMinor = 0;
+
+            Mock<IPackage> oldPackage;
+            Mock<IPackage> newPackage;
+            SetupMocks(new List<String> { oldSource1, oldSource2 }, new List<String> { newSource1, newSource2 }, oldMajor, oldMinor, newMajor, newMinor, out oldPackage, out newPackage);
+
+            SemanticVersionChecker checker = new SemanticVersionChecker();
+            Assert.AreEqual(new Version(3, 0), checker.DetermineCorrectSemanticVersion(oldPackage.Object, newPackage.Object));
+
+        }
+        #endregion
+
+        #endregion
 
         #region Helpers
 
