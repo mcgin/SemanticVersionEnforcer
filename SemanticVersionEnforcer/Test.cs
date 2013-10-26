@@ -31,32 +31,59 @@ namespace SemanticVersionEnforcer
         #endregion
 
         #region MinorVersion Should Increment
+        [Test]
+        public void GivenTwoPackages_WhenTheNewerOneContainsAdditionalAbstractClasses_ItShouldHaveItsMinorVersionIncremented()
+        {
+            String oldSource = "public class B { public void hello() { int x=7; } }";
+            String newSource1 = "public class B { public void hello() { int x=7; } }";
+            String newSource2 = "public abstract class C { public void hello() { int x=7; } }";
+            
+            int oldMajor = 2;
+            int oldMinor = 3;
+            int newMajor = 2;
+            int newMinor = 4;
 
+            Mock<IPackage> oldPackage;
+            Mock<IPackage> newPackage;
+            SetupMocks(new List<String> {oldSource}, new List<String> {newSource1, newSource2}, oldMajor, oldMinor, newMajor, newMinor, out oldPackage, out newPackage);
+
+
+            SemanticVersionChecker checker = new SemanticVersionChecker();
+            Assert.AreEqual(new Version(2, 4), checker.DetermineCorrectSemanticVersion(oldPackage.Object, newPackage.Object));
+        }
+        [Test]
+        public void GivenTwoPackages_WhenTheNewerOneContainsAdditionalAbstractMethods_ItShouldHaveItsMinorVersionIncremented()
+        {
+            String oldSource = "public abstract class B { public void hello() { int x=7; } }";
+            String newSource = "public abstract class B { public void hello() { int x=7; } public abstract void abstractHello(); }";
+            
+            int oldMajor = 2;
+            int oldMinor = 3;
+            int newMajor = 2;
+            int newMinor = 4;
+
+            Mock<IPackage> oldPackage;
+            Mock<IPackage> newPackage;
+            SetupMocks(oldSource, newSource, oldMajor, oldMinor, newMajor, newMinor, out oldPackage, out newPackage);
+
+            SemanticVersionChecker checker = new SemanticVersionChecker();
+            Assert.AreEqual(new Version(2, 4), checker.DetermineCorrectSemanticVersion(oldPackage.Object, newPackage.Object));
+        }
+        
         [Test]
 		public void GivenTwoPackages_WhenTheNewerOneContainsAdditionalPublicMethods_ItShouldHaveItsMinorVersionIncremented()
 		{
-			//string sourceCode = File.ReadAllText("TestData/PublicInterfaces.txt");
-			String singlePublicMethod = "public class B { public void hello() { int x=7; } }";
-			String twoPublicMethods = "public class B { public void hello() { int x=7; }public void hello2() { int x=7; } }";
+			String oldSource = "public class B { public void hello() { int x=7; } }";
+            String newSource = "public class B { public void hello() { int x=7; }public void hello2() { int x=7; } }";
 
-			String oldAssembley = CreateAssembly(singlePublicMethod, 2, 3);
-			String newAssembley = CreateAssembly(twoPublicMethods, 2, 4);
+            int oldMajor = 2;
+            int oldMinor = 3;
+            int newMajor = 2;
+            int newMinor = 4;
 
-			Mock<IPackageFile> oldMock = new Mock<IPackageFile>();
-			oldMock.Setup(dll => dll.EffectivePath).Returns(oldAssembley);
-			oldMock.Setup(dll => dll.GetStream()).Returns(File.Open(oldAssembley, FileMode.Open));
-
-			Mock<IPackageFile> newMock = new Mock<IPackageFile>();
-			newMock.Setup(dll => dll.EffectivePath).Returns(newAssembley);
-			newMock.Setup(dll => dll.GetStream()).Returns(File.Open(newAssembley, FileMode.Open));
-
-			Mock<IPackage> oldPackage = new Mock<IPackage>();
-			oldPackage.Setup(p => p.GetFiles()).Returns(new List<IPackageFile> { oldMock.Object });
-			oldPackage.Setup(p => p.Version).Returns(new SemanticVersion(2, 3, 0, 0));
-
-			Mock<IPackage> newPackage = new Mock<IPackage>();
-			newPackage.Setup(p => p.GetFiles()).Returns(new List<IPackageFile> { newMock.Object });
-
+            Mock<IPackage> oldPackage;
+            Mock<IPackage> newPackage;
+            SetupMocks(oldSource, newSource, oldMajor, oldMinor, newMajor, newMinor, out oldPackage, out newPackage);
 
 			SemanticVersionChecker checker = new SemanticVersionChecker();
 			Assert.AreEqual(new Version(2, 4), checker.DetermineCorrectSemanticVersion(oldPackage.Object, newPackage.Object));
@@ -67,23 +94,15 @@ namespace SemanticVersionEnforcer
 			String oldSource = "public class B { public void hello() { int x=7; } }";
 			String newSource = "public class B { public void hello() { int x=7; } }";
 			String newSource2 = "public class C { public void hellc() { int x=7; } }";
-			String oldAssembley = CreateAssembly(oldSource, 2, 3);
-			String newAssembley = CreateAssembly(new List<String>() { newSource, newSource2 }, 2, 3);
 
-			Mock<IPackageFile> oldMock = new Mock<IPackageFile>();
-			oldMock.Setup(dll => dll.EffectivePath).Returns(oldAssembley);
-			oldMock.Setup(dll => dll.GetStream()).Returns(File.Open(oldAssembley, FileMode.Open));
+            int oldMajor = 2;
+            int oldMinor = 3;
+            int newMajor = 2;
+            int newMinor = 4;
 
-			Mock<IPackageFile> newMock = new Mock<IPackageFile>();
-			newMock.Setup(dll => dll.EffectivePath).Returns(newAssembley);
-			newMock.Setup(dll => dll.GetStream()).Returns(File.Open(newAssembley, FileMode.Open));
-
-			Mock<IPackage> oldPackage = new Mock<IPackage>();
-			oldPackage.Setup(p => p.GetFiles()).Returns(new List<IPackageFile> { oldMock.Object });
-			oldPackage.Setup(p => p.Version).Returns(new SemanticVersion(2, 3, 0, 0));
-
-			Mock<IPackage> newPackage = new Mock<IPackage>();
-			newPackage.Setup(p => p.GetFiles()).Returns(new List<IPackageFile> { newMock.Object });
+            Mock<IPackage> oldPackage;
+            Mock<IPackage> newPackage;
+            SetupMocks(new List<String>() { oldSource }, new List<String>() { newSource, newSource2 }, oldMajor, oldMinor, newMajor, newMinor, out oldPackage, out newPackage);
 
 
 			SemanticVersionChecker checker = new SemanticVersionChecker();
@@ -93,33 +112,61 @@ namespace SemanticVersionEnforcer
 		#endregion
 
 		#region SameVersion
-		
+
+        [Test]
+        public void GivenTwoPackages_WhenTheyBothContainTheSameAbstractClass_ItShouldHaveTheySameVersionNumbers()
+        {
+            String oldSource = "public abstract class abstractClass { public abstract void blah(); }";
+            String newSource = "public abstract class abstractClass { public abstract void blah(); }";
+
+            int oldMajor = 2;
+            int oldMinor = 3;
+            int newMajor = 2;
+            int newMinor = 3;
+
+            Mock<IPackage> oldPackage;
+            Mock<IPackage> newPackage;
+            SetupMocks(new List<String> { oldSource }, new List<String> { newSource }, oldMajor, oldMinor, newMajor, newMinor, out oldPackage, out newPackage);
+            
+            SemanticVersionChecker checker = new SemanticVersionChecker();
+            Assert.AreEqual(new Version(2, 3), checker.DetermineCorrectSemanticVersion(oldPackage.Object, newPackage.Object));
+
+        }
+        
+        [Test]
+        public void GivenTwoPackages_WhenTheyBothContainTheSameInterfaces_ItShouldHaveTheSameVersion()
+        { 
+            String oldSource = "interface x { string GetSomething(); }";
+            String newSource = "interface x { string GetSomething(); }";
+            
+            int oldMajor = 2;
+            int oldMinor = 3;
+            int newMajor = 2;
+            int newMinor = 3;
+
+            Mock<IPackage> oldPackage;
+            Mock<IPackage> newPackage;
+            SetupMocks(new List<String> { oldSource }, new List<String> { newSource }, oldMajor, oldMinor, newMajor, newMinor, out oldPackage, out newPackage);
+            
+            SemanticVersionChecker checker = new SemanticVersionChecker();
+            Assert.AreEqual(new Version(2, 3), checker.DetermineCorrectSemanticVersion(oldPackage.Object, newPackage.Object));
+        }
 		[Test]
 		public void GivenTwoPackages_WhenTheNewerOneContainsAdditionalPrivateMethods_ItShouldHaveTheSameVersion()
 		{
 			String oldSource = "public class B { public void hello() { int x=7; } }";
 			String newSource = "public class B { public void hello() { int x=7; } private void hello2() { int x=7; } }";
 
-			String oldAssembley = CreateAssembly(oldSource, 2, 3);
-			String newAssembley = CreateAssembly(newSource, 2, 3);
+            int oldMajor = 2;
+            int oldMinor = 3;
+            int newMajor = 2;
+            int newMinor = 3;
 
-			Mock<IPackageFile> oldMock = new Mock<IPackageFile>();
-			oldMock.Setup(dll => dll.EffectivePath).Returns(oldAssembley);
-			oldMock.Setup(dll => dll.GetStream()).Returns(File.Open(oldAssembley, FileMode.Open));
+            Mock<IPackage> oldPackage;
+            Mock<IPackage> newPackage;
+            SetupMocks(new List<String> { oldSource }, new List<String> { newSource }, oldMajor, oldMinor, newMajor, newMinor, out oldPackage, out newPackage);
 
-			Mock<IPackageFile> newMock = new Mock<IPackageFile>();
-			newMock.Setup(dll => dll.EffectivePath).Returns(newAssembley);
-			newMock.Setup(dll => dll.GetStream()).Returns(File.Open(newAssembley, FileMode.Open));
-
-			Mock<IPackage> oldPackage = new Mock<IPackage>();
-			oldPackage.Setup(p => p.GetFiles()).Returns(new List<IPackageFile> { oldMock.Object });
-			oldPackage.Setup(p => p.Version).Returns(new SemanticVersion(2, 3, 0, 0));
-
-			Mock<IPackage> newPackage = new Mock<IPackage>();
-			newPackage.Setup(p => p.GetFiles()).Returns(new List<IPackageFile> { newMock.Object });
-
-
-			SemanticVersionChecker checker = new SemanticVersionChecker();
+            SemanticVersionChecker checker = new SemanticVersionChecker();
 			Assert.AreEqual(new Version(2, 3), checker.DetermineCorrectSemanticVersion(oldPackage.Object, newPackage.Object));
 		}
 
@@ -130,26 +177,17 @@ namespace SemanticVersionEnforcer
 			String oldSource = "public class B { public void hello() { int x=7; } }";
 			String newSource = "public class B { public void hello() { int x=7; } }";
 			String newSource2 = "class C { public void hellc() { int x=7; } }";
-			String oldAssembley = CreateAssembly(oldSource, 2, 3);
-			String newAssembley = CreateAssembly(new List<String>() { newSource, newSource2 }, 2, 3);
+			
+            int oldMajor = 2;
+            int oldMinor = 3;
+            int newMajor = 2;
+            int newMinor = 3;
 
-			Mock<IPackageFile> oldMock = new Mock<IPackageFile>();
-			oldMock.Setup(dll => dll.EffectivePath).Returns(oldAssembley);
-			oldMock.Setup(dll => dll.GetStream()).Returns(File.Open(oldAssembley, FileMode.Open));
+            Mock<IPackage> oldPackage;
+            Mock<IPackage> newPackage;
+            SetupMocks(new List<String> { oldSource }, new List<String> { newSource, newSource2 }, oldMajor, oldMinor, newMajor, newMinor, out oldPackage, out newPackage);
 
-			Mock<IPackageFile> newMock = new Mock<IPackageFile>();
-			newMock.Setup(dll => dll.EffectivePath).Returns(newAssembley);
-			newMock.Setup(dll => dll.GetStream()).Returns(File.Open(newAssembley, FileMode.Open));
-
-			Mock<IPackage> oldPackage = new Mock<IPackage>();
-			oldPackage.Setup(p => p.GetFiles()).Returns(new List<IPackageFile> { oldMock.Object });
-			oldPackage.Setup(p => p.Version).Returns(new SemanticVersion(2, 3, 0, 0));
-
-			Mock<IPackage> newPackage = new Mock<IPackage>();
-			newPackage.Setup(p => p.GetFiles()).Returns(new List<IPackageFile> { newMock.Object });
-
-
-			SemanticVersionChecker checker = new SemanticVersionChecker();
+            SemanticVersionChecker checker = new SemanticVersionChecker();
 			Assert.AreEqual(new Version(2, 3), checker.DetermineCorrectSemanticVersion(oldPackage.Object, newPackage.Object));
 		}
 
@@ -190,29 +228,20 @@ namespace SemanticVersionEnforcer
 		[Test]
 		public void GivenTwoPackages_WhenTheyAreTheSame_ItShouldHaveTheSameMajorAndMinorVersion()
 		{
-			String sourceCode = "public class B { public void hello() { int x=7; } }";
-			String oldAssembley = CreateAssembly(sourceCode, 2, 3);
-			String newAssembley = CreateAssembly(sourceCode, 2, 3);
+            String oldSource = "public class B { public void hello() { int x=7; } }";
+            String newSource = "public class B { public void hello() { int x=7; } }";
 
-			Mock<IPackageFile> oldMock = new Mock<IPackageFile>();
-			oldMock.Setup(dll => dll.EffectivePath).Returns(oldAssembley);
-			oldMock.Setup(dll => dll.GetStream()).Returns(File.Open(oldAssembley, FileMode.Open));
+            int oldMajor = 2;
+            int oldMinor = 3;
+            int newMajor = 2;
+            int newMinor = 3;
 
-			Mock<IPackageFile> newMock = new Mock<IPackageFile>();
-			newMock.Setup(dll => dll.EffectivePath).Returns(newAssembley);
-			newMock.Setup(dll => dll.GetStream()).Returns(File.Open(newAssembley, FileMode.Open));
-
-			Mock<IPackage> oldPackage = new Mock<IPackage>();
-			oldPackage.Setup(p => p.GetFiles()).Returns(new List<IPackageFile> { oldMock.Object });
-			oldPackage.Setup(p => p.Version).Returns(new SemanticVersion(2, 3, 0, 0));
-
-			Mock<IPackage> newPackage = new Mock<IPackage>();
-			newPackage.Setup(p => p.GetFiles()).Returns(new List<IPackageFile> { newMock.Object });
-
-
+            Mock<IPackage> oldPackage;
+            Mock<IPackage> newPackage;
+            SetupMocks(new List<String> { oldSource }, new List<String> { newSource }, oldMajor, oldMinor, newMajor, newMinor, out oldPackage, out newPackage);
+            
 			SemanticVersionChecker checker = new SemanticVersionChecker();
 			Assert.AreEqual(new Version(2, 3), checker.DetermineCorrectSemanticVersion(oldPackage.Object, newPackage.Object));
-
 		}
 		#endregion
 
@@ -223,60 +252,109 @@ namespace SemanticVersionEnforcer
 		{
 			String oldSource = "public class B { public void hello() { int x=7; } }";
 			String newSource = "public class C { public void bye() { int x=7; } }";
-			String oldAssembley = CreateAssembly(oldSource, 2, 3);
-			String newAssembley = CreateAssembly(new List<String>() { newSource }, 2, 3);
+			
+            int oldMajor = 2;
+            int oldMinor = 3;
+            int newMajor = 3;
+            int newMinor = 0;
 
-			Mock<IPackageFile> oldMock = new Mock<IPackageFile>();
-			oldMock.Setup(dll => dll.EffectivePath).Returns(oldAssembley);
-			oldMock.Setup(dll => dll.GetStream()).Returns(File.Open(oldAssembley, FileMode.Open));
-
-			Mock<IPackageFile> newMock = new Mock<IPackageFile>();
-			newMock.Setup(dll => dll.EffectivePath).Returns(newAssembley);
-			newMock.Setup(dll => dll.GetStream()).Returns(File.Open(newAssembley, FileMode.Open));
-
-			Mock<IPackage> oldPackage = new Mock<IPackage>();
-			oldPackage.Setup(p => p.GetFiles()).Returns(new List<IPackageFile> { oldMock.Object });
-			oldPackage.Setup(p => p.Version).Returns(new SemanticVersion(2, 3, 0, 0));
-
-			Mock<IPackage> newPackage = new Mock<IPackage>();
-			newPackage.Setup(p => p.GetFiles()).Returns(new List<IPackageFile> { newMock.Object });
-
+            Mock<IPackage> oldPackage;
+            Mock<IPackage> newPackage;
+            SetupMocks(new List<String> { oldSource }, new List<String> { newSource }, oldMajor, oldMinor, newMajor, newMinor, out oldPackage, out newPackage);
 
 			SemanticVersionChecker checker = new SemanticVersionChecker();
 			Assert.AreEqual(new Version(3, 0), checker.DetermineCorrectSemanticVersion(oldPackage.Object, newPackage.Object));
 		}
 
-		[Test]
-		public void GivenTwoPackages_WhenTheOlderOneContainsAdditionalPublicMethods_ItShouldIncrementTheMajorAndResetTheMinor()
-		{
-			String oldSourceCode = "public class B { public void hello() { int x=7; } public void hello2() { int x=7; } public void hello3() { int x=7; } }";
-			String newSourceCode = "public class B { public void hello() { int x=7; } public void hello2() { int x=7; } }";
-			String oldAssembley = CreateAssembly(oldSourceCode, 2, 3);
-			String newAssembley = CreateAssembly(newSourceCode, 3, 0);
+        [Test]
+        public void GivenTwoPackages_WhenTheOlderOneContainsAdditionalPublicMethods_ItShouldIncrementTheMajorAndResetTheMinor()
+        {
+            String oldSource = "public class B { public void hello() { int x=7; } public void hello2() { int x=7; } public void hello3() { int x=7; } }";
+            String newSource = "public class B { public void hello() { int x=7; } public void hello2() { int x=7; } }";
+            
+            int oldMajor = 2;
+            int oldMinor = 3;
+            int newMajor = 3;
+            int newMinor = 0;
 
-			Mock<IPackageFile> oldMock = new Mock<IPackageFile>();
-			oldMock.Setup(dll => dll.EffectivePath).Returns(oldAssembley);
-			oldMock.Setup(dll => dll.GetStream()).Returns(File.Open(oldAssembley, FileMode.Open));
+            Mock<IPackage> oldPackage;
+            Mock<IPackage> newPackage;
+            SetupMocks(new List<String> { oldSource }, new List<String> { newSource }, oldMajor, oldMinor, newMajor, newMinor, out oldPackage, out newPackage);
+            
+            SemanticVersionChecker checker = new SemanticVersionChecker();
+            Assert.AreEqual(new Version(3, 0), checker.DetermineCorrectSemanticVersion(oldPackage.Object, newPackage.Object));
 
-			Mock<IPackageFile> newMock = new Mock<IPackageFile>();
-			newMock.Setup(dll => dll.EffectivePath).Returns(newAssembley);
-			newMock.Setup(dll => dll.GetStream()).Returns(File.Open(newAssembley, FileMode.Open));
+        }
+        
+        [Test]
+        public void GivenTwoPackages_WhenTheOlderOneContainsAdditionalInterfaces_ItShouldIncrementTheMajorAndResetTheMinor()
+        {
+            String oldSource1 = "interface x { string GetSomething(); }";
+            String oldSource2 = "public class B { public void hello() { int x=7; } public void hello2() { int x=7; } }";
+            String newSource = "public class B { public void hello() { int x=7; } public void hello2() { int x=7; } }";
+            
+            int oldMajor = 2;
+            int oldMinor = 3;
+            int newMajor = 3;
+            int newMinor = 0;
 
-			Mock<IPackage> oldPackage = new Mock<IPackage>();
-			oldPackage.Setup(p => p.GetFiles()).Returns(new List<IPackageFile> { oldMock.Object });
-			oldPackage.Setup(p => p.Version).Returns(new SemanticVersion(2, 3, 0, 0));
+            Mock<IPackage> oldPackage;
+            Mock<IPackage> newPackage;
+            SetupMocks(new List<String> { oldSource1, oldSource2 }, new List<String> { newSource }, oldMajor, oldMinor, newMajor, newMinor, out oldPackage, out newPackage);
 
-			Mock<IPackage> newPackage = new Mock<IPackage>();
-			newPackage.Setup(p => p.GetFiles()).Returns(new List<IPackageFile> { newMock.Object });
+            SemanticVersionChecker checker = new SemanticVersionChecker();
+            Assert.AreEqual(new Version(3, 0), checker.DetermineCorrectSemanticVersion(oldPackage.Object, newPackage.Object));
 
+        }
 
-			SemanticVersionChecker checker = new SemanticVersionChecker();
-			Assert.AreEqual(new Version(3, 0), checker.DetermineCorrectSemanticVersion(oldPackage.Object, newPackage.Object));
+        [Test]
+        public void GivenTwoPackages_WhenTheOlderOneContainsAdditionalPublicMethodsInAnAbstractClass_ItShouldIncrementTheMajorAndResetTheMinor()
+        {
+            String oldSource1 = "public abstract class abstractClass { public abstract void blah(); }";
+            String oldSource2 = "public class B { public void hello() { int x=7; } public void hello2() { int x=7; } }";
+            String newSource = "public class B { public void hello() { int x=7; } public void hello2() { int x=7; } }";
 
-		}
+            int oldMajor = 2;
+            int oldMinor = 3;
+            int newMajor = 3;
+            int newMinor = 0;
+
+            Mock<IPackage> oldPackage;
+            Mock<IPackage> newPackage;
+            SetupMocks(new List<String> { oldSource1, oldSource2 }, new List<String> { newSource }, oldMajor, oldMinor, newMajor, newMinor, out oldPackage, out newPackage);
+
+            SemanticVersionChecker checker = new SemanticVersionChecker();
+            Assert.AreEqual(new Version(3, 0), checker.DetermineCorrectSemanticVersion(oldPackage.Object, newPackage.Object));
+
+        }
 		#endregion
 
         #region Helpers
+
+        private void SetupMocks(string oldSource, string newSource, int oldMajor, int oldMinor, int newMajor, int newMinor, out Mock<IPackage> oldPackage, out Mock<IPackage> newPackage)
+        {
+            this.SetupMocks(new List<String> { oldSource }, new List<String> { newSource }, oldMajor, oldMinor, newMajor, newMinor, out oldPackage, out newPackage);
+        }
+        private void SetupMocks(List<String> oldSource, List<String> newSource, int oldMajor, int oldMinor, int newMajor, int newMinor, out Mock<IPackage> oldPackage, out Mock<IPackage> newPackage)
+        {
+            String oldAssembley = CreateAssembly(oldSource, oldMajor, oldMinor);
+            String newAssembley = CreateAssembly(newSource, newMajor, newMinor);
+
+            Mock<IPackageFile> oldMock = new Mock<IPackageFile>();
+            oldMock.Setup(dll => dll.EffectivePath).Returns(oldAssembley);
+            oldMock.Setup(dll => dll.GetStream()).Returns(File.Open(oldAssembley, FileMode.Open));
+
+            Mock<IPackageFile> newMock = new Mock<IPackageFile>();
+            newMock.Setup(dll => dll.EffectivePath).Returns(newAssembley);
+            newMock.Setup(dll => dll.GetStream()).Returns(File.Open(newAssembley, FileMode.Open));
+
+            oldPackage = new Mock<IPackage>();
+            oldPackage.Setup(p => p.GetFiles()).Returns(new List<IPackageFile> { oldMock.Object });
+            oldPackage.Setup(p => p.Version).Returns(new SemanticVersion(oldMajor, oldMinor, 0, 0));
+
+            newPackage = new Mock<IPackage>();
+            newPackage.Setup(p => p.GetFiles()).Returns(new List<IPackageFile> { newMock.Object });
+        }  
         private String GenerateAssemblySourceWithVersion(int major, int minor, int patch, int other)
         {
             return String.Format("[assembly: System.Reflection.AssemblyVersionAttribute(\"{0}.{1}.{2}.{3}\")]", major, minor, patch, other);

@@ -6,44 +6,11 @@ using System.Linq;
 
 namespace SemanticVersionEnforcer
 {
+    interface x { string GetSomething(); }
+    public abstract class abstractClass { public abstract void blah(); }
+        
     public class SemanticVersionChecker
     {
-        public void run()
-        {
-            //ID of the package to be looked up
-            string packageID = "NUnit";
-
-            //Connect to the official package repository
-            IPackageRepository repo = PackageRepositoryFactory.Default.CreateRepository("C:\\Users\\Aidan\\AppData\\Local\\NuGet\\Cache");
-            repo.FindPackage("NUnit", new SemanticVersion("2.6.1"));
-
-            //Get the list of all NuGet packages with ID 'EntityFramework'       
-            List<IPackage> packages = repo.FindPackagesById(packageID).ToList();
-
-            //Filter the list of packages that are not Release (Stable) versions
-            packages = packages.Where (item => (item.IsReleaseVersion() == true)).ToList();
-            //C:\Users\Aidan\AppData\Local\NuGet\Cache
-            //Iterate through the list and print the full name of the pre-release packages to console
-            IPackage oldPackage = null;
-            IPackage newPackage = null;
-            foreach (IPackage p in packages)
-            {
-                Console.WriteLine(p.GetFullName());
-
-                if (p.GetFullName().EndsWith("2.6.1"))
-                {
-                    oldPackage = p;
-                }
-                if (p.GetFullName().EndsWith("2.6.2"))
-                {
-                    newPackage = p;
-                }
-
-
-
-            }
-            
-        }
 		
         public Version DetermineCorrectSemanticVersion(IPackage oldPackage, IPackage newPackage)
         {
@@ -108,7 +75,7 @@ namespace SemanticVersionEnforcer
                     Assembly assembly = Assembly.Load(file.GetStream().ReadAllBytes());
                     foreach (var type in assembly.GetTypes())
                     {
-                        if (type.IsPublic)
+                        if (type.IsPublic  || type.IsInterface )
                         {
                             types.Add(new ComparableType(type));
                         }
