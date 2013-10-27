@@ -72,7 +72,7 @@
     <Compile Include="ComparableType.cs" />
     <Compile Include="MethodDescriptor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Test.cs" />
+    <Compile Include="SemanticVrsionCheckerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

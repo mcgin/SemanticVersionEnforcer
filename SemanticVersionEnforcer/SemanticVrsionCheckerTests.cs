@@ -18,16 +18,20 @@ using System.CodeDom;
 namespace SemanticVersionEnforcer
 {
     [TestFixture]
-    class TestClass
+    class SemanticVrsionCheckerTests
     {
         
         private static Random random = new Random();
+        private const string TEST_DLL_PREFIX = "TestData/AutoGen";
+
         #region Test Setup and TearDown
         [TearDown]
         public void TearDown()
         {
-            //Should delete all the temporary files"";
+            //TODO: Delete the TestData/AutoGen* files
+
         }
+
         #endregion
 
         #region MinorVersion Should Increment
@@ -227,11 +231,11 @@ namespace SemanticVersionEnforcer
         #region Private Classes
 
         [Test]
-		public void GivenTwoPackages_WhenTheNewerOneContainsAdditionalPrivateClasses_ItShouldHaveTheSameVersion()
+		public void GivenTwoPackages_WhenTheNewerOneContainsAdditionalInternalClasses_ItShouldHaveTheSameVersion()
 		{
 			String oldSource = "public class B { public void hello() { int x=7; } }";
 			String newSource = "public class B { public void hello() { int x=7; } }";
-			String newSource2 = "class C { public void hellc() { int x=7; } }";
+			String newSource2 = "internal class C { public void hellc() { int x=7; } }";
 			
             int oldMajor = 2;
             int oldMinor = 3;
@@ -369,7 +373,7 @@ namespace SemanticVersionEnforcer
 
         }
         [Test]
-        public void GivenTwoPackages_WhenTheOlderOneContainsAdditionalMethodsOnAnInterface_ItShouldIncrementTheMajorAndResetTheMinor()
+        public void GivenTwoPackages_WhenTheOlderOneContainsAdditionalMethodsOnACommonInterface_ItShouldIncrementTheMajorAndResetTheMinor()
         {
             String oldSource1 = "interface x { string GetSomething(); string GetSomething2(); }";
             String newSource = "interface x { string GetSomething();  }";
@@ -472,7 +476,7 @@ namespace SemanticVersionEnforcer
         }
         public String CreateAssembly(List<String> sourceStrings, int major, int minor)
         {
-            String name = "TestData/AutoGen" + random.Next(100000) + ".dll";
+            String name = TEST_DLL_PREFIX + random.Next(100000) + ".dll";
             System.CodeDom.Compiler.CompilerParameters parameters = new CompilerParameters();
             parameters.GenerateExecutable = false;
             parameters.OutputAssembly = name;
