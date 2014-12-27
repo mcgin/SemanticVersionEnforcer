@@ -10,3 +10,5 @@ obj
 .nuget
 *.suo
 *.DotSettings.user
+!**/TestData/nunit.framework.copy.2.6.2.dll
+!**/TestData/nunit.framework.2.6.2.dll
