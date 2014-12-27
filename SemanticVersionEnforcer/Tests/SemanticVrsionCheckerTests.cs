@@ -17,20 +17,26 @@ using System.CodeDom;
 
 namespace SemanticVersionEnforcer
 {
-    [TestFixture]
-    public abstract class SemanticVersionBaseTest
+    [SetUpFixture]
+    public class SemanticVersionBase
     {
         
         private static Random random = new Random();
-        private const string TEST_DLL_PREFIX = "TestData/AutoGen";
+        private const string TEST_DLL_DIR = "Tests/TestData/AutoGen";
 
         #region Test Setup and TearDown
-        [TearDown]
-        public void TearDown()
-        {
-            //TODO: Delete the TestData/AutoGen* files
+            [SetUp]
+	        public void RunBeforeAnyTests()
+	        {
+                Directory.CreateDirectory(TEST_DLL_DIR);
+	        }
 
-        }
+            [TearDown]
+            public void RunAfterAnyTests()
+	        {
+                //TODO: Fix the race condition so this gets deleted
+                //Directory.Delete(TEST_DLL_DIR, true);
+	        }
 
         #endregion
 
@@ -70,7 +76,7 @@ namespace SemanticVersionEnforcer
         }
         protected String CreateAssembly(List<String> sourceStrings, int major, int minor)
         {
-            String name = TEST_DLL_PREFIX + random.Next(100000) + ".dll";
+            String name = TEST_DLL_DIR + "/" + random.Next(100000) + ".dll";
             System.CodeDom.Compiler.CompilerParameters parameters = new CompilerParameters();
             parameters.GenerateExecutable = false;
             parameters.OutputAssembly = name;

@@ -17,7 +17,7 @@ using System.CodeDom;
 
 namespace SemanticVersionEnforcer.Tests
 {
-    class IdenticalVersionTests :SemanticVersionBaseTest
+    class IdenticalVersionTests :SemanticVersionBase
     {
         #region SameVersion
 

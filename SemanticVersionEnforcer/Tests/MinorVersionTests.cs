@@ -17,7 +17,7 @@ using System.CodeDom;
 
 namespace SemanticVersionEnforcer.Tests
 {
-    class MinorVersionTests :SemanticVersionBaseTest
+    class MinorVersionTests :SemanticVersionBase
     {
         #region MinorVersion Should Increment
 

@@ -17,7 +17,7 @@ using System.CodeDom;
 
 namespace SemanticVersionEnforcer.Tests
 {
-    class MajorVersionTests : SemanticVersionBaseTest
+    class MajorVersionTests : SemanticVersionBase
     {
         #region Increment Major Version
 
