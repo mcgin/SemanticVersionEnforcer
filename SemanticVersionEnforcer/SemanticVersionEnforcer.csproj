@@ -72,13 +72,16 @@
     <Compile Include="ComparableType.cs" />
     <Compile Include="MethodDescriptor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SemanticVrsionCheckerTests.cs" />
+    <Compile Include="Tests\IdenticalVersionTests.cs" />
+    <Compile Include="Tests\MajorVersionTests.cs" />
+    <Compile Include="Tests\MinorVersionTests.cs" />
+    <Compile Include="Tests\SemanticVrsionCheckerTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TestData\nunit.framework.2.6.2.dll">
+    <EmbeddedResource Include="Tests\TestData\nunit.framework.2.6.2.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
@@ -86,12 +89,12 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TestData\PublicInterfaces.txt">
+    <EmbeddedResource Include="Tests\TestData\PublicInterfaces.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TestData\nunit.framework.copy.2.6.2.dll">
+    <EmbeddedResource Include="Tests\TestData\nunit.framework.copy.2.6.2.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
