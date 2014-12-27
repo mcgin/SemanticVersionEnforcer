@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+	<authors>Aidan McGinley</authors>
+    <licenseUrl>https://github.com/mcgin/SemanticVersionEnforcer/blob/master/LICENCE.txt</licenseUrl>
+    <projectUrl>https://github.com/mcgin/SemanticVersionEnforcer</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Compares two NuGet packages to determine if the Major and Minor version are semantically correct based on the publicly exposed classes/methods.</description>
+    <releaseNotes>Initial Release</releaseNotes>
+    <copyright>Copyright 2014</copyright>
+    <tags>NuGet Package Semantic Version</tags>
+  </metadata>
+</package>

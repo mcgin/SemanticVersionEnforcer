@@ -8,28 +8,29 @@ namespace SemanticVersionEnforcer
 {
     public class SemanticVersionChecker
     {
-		
+        public Version DetermineCorrectSemanticVersion(IPackage oldPackage, IPackage newPackage, String[] assembliesBoundBySemanticVersioningContract)
+        {
+            throw new NotSupportedException("Filtering not yet implemented, not even sure I want to implement it....");
+        }
+
         public Version DetermineCorrectSemanticVersion(IPackage oldPackage, IPackage newPackage)
         {
             ISet<MethodDescriptor> publicMethodsInOldPackage = EnumeratePublicMethods(oldPackage);
             ISet<MethodDescriptor> publicMethodsInNewPackage = EnumeratePublicMethods(newPackage);
             Version semanticVersion = new Version(oldPackage.Version.Version.Major, oldPackage.Version.Version.Minor);
 
-            //oldPackage.Version.Version;
             foreach (MethodDescriptor methodInfo in publicMethodsInNewPackage)
             {
-                //If there is public methods in the old packge not in the new then instant swith
-                
                 if (!publicMethodsInOldPackage.Contains(methodInfo))
                 {
                     semanticVersion = new Version(oldPackage.Version.Version.Major, oldPackage.Version.Version.Minor + 1);
                 }
             }
 
-			if (publicMethodsInOldPackage.Any(methodInfo => !publicMethodsInNewPackage.Contains(methodInfo)))
-			{
-			    return new Version(semanticVersion.Major+1, 0);
-			}
+            if (publicMethodsInOldPackage.Any(methodInfo => !publicMethodsInNewPackage.Contains(methodInfo)))
+            {
+                return new Version(semanticVersion.Major + 1, 0);
+            }
             return semanticVersion;
         }
 
