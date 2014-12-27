@@ -115,7 +115,7 @@ namespace SemanticVersionEnforcer.Tests
 
             Mock<IPackageFile> mockDll = new Mock<IPackageFile>();
             mockDll.Setup(dll => dll.EffectivePath).Returns("test.dll");
-            mockDll.Setup(dll => dll.GetStream()).Returns(File.Open("Tests/TestData/nunit.framework.2.6.2.dll", FileMode.Open));
+            mockDll.Setup(dll => dll.GetStream()).Returns(File.Open("TestData/nunit.framework.2.6.2.dll", FileMode.Open));
 
             Mock<IPackage> mockPackage = new Mock<IPackage>();
             mockPackage.Setup(p => p.GetFiles()).Returns(new List<IPackageFile> { mockDll.Object });
@@ -123,7 +123,7 @@ namespace SemanticVersionEnforcer.Tests
 
             Mock<IPackageFile> newMockDll = new Mock<IPackageFile>();
             newMockDll.Setup(dll => dll.EffectivePath).Returns("test.dll");
-            newMockDll.Setup(dll => dll.GetStream()).Returns(File.Open("Tests/TestData/nunit.framework.copy.2.6.2.dll", FileMode.Open));//For some reason I can't get it to work using the same mock
+            newMockDll.Setup(dll => dll.GetStream()).Returns(File.Open("TestData/nunit.framework.copy.2.6.2.dll", FileMode.Open));//For some reason I can't get it to work using the same mock
 
             Mock<IPackage> newMockPackage = new Mock<IPackage>();
             newMockPackage.Setup(p => p.GetFiles()).Returns(new List<IPackageFile> { newMockDll.Object });
