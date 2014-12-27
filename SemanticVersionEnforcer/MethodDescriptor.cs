@@ -4,7 +4,7 @@ using System.Reflection;
 
 namespace SemanticVersionEnforcer
 {
-    public class MethodDescriptor
+    internal class MethodDescriptor
     {
        
         public Type Type { get; set; }

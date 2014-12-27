@@ -2,7 +2,7 @@
 
 namespace SemanticVersionEnforcer
 {
-    class ComparableType : IComparable
+    internal class ComparableType : IComparable
     {
         public Type Type { get; set; }
         public ComparableType(Type type)
