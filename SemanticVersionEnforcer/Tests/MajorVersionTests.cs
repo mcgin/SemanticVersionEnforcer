@@ -1,19 +1,8 @@
-﻿using System.IO;
-using System.Net.Security;
-using System.Reflection;
-using System.Reflection.Emit;
-using NuGet;
-using NuGet.Runtime;
-using NUnit.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Moq;
-using Microsoft.CSharp;
-using System.CodeDom.Compiler;
-using System.CodeDom;
+using NuGet;
+using NUnit.Framework;
 
 namespace SemanticVersionEnforcer.Tests
 {
@@ -25,13 +14,13 @@ namespace SemanticVersionEnforcer.Tests
         [Test]
         public void GivenTwoPackages_WhenTheyAreCompletelyDifferent_ItShouldIncrementTheMajorVersionAndResetTheMinor()
         {
-            String oldSource = "public class B { public void hello() { int x=7; } }";
-            String newSource = "public class C { public void bye() { int x=7; } }";
+            const String oldSource = "public class B { public void hello() { int x=7; } }";
+            const String newSource = "public class C { public void bye() { int x=7; } }";
 
-            int oldMajor = 2;
-            int oldMinor = 3;
-            int newMajor = 3;
-            int newMinor = 0;
+            const int oldMajor = 2;
+            const int oldMinor = 3;
+            const int newMajor = 3;
+            const int newMinor = 0;
 
             Mock<IPackage> oldPackage;
             Mock<IPackage> newPackage;
@@ -46,13 +35,13 @@ namespace SemanticVersionEnforcer.Tests
         [Test]
         public void GivenTwoPackages_WhenTheOlderOneContainsAdditionalPublicMethods_ItShouldIncrementTheMajorAndResetTheMinor()
         {
-            String oldSource = "public class B { public void hello() { int x=7; } public void hello2() { int x=7; } public void hello3() { int x=7; } }";
-            String newSource = "public class B { public void hello() { int x=7; } public void hello2() { int x=7; } }";
+            const String oldSource = "public class B { public void hello() { int x=7; } public void hello2() { int x=7; } public void hello3() { int x=7; } }";
+            const String newSource = "public class B { public void hello() { int x=7; } public void hello2() { int x=7; } }";
 
-            int oldMajor = 2;
-            int oldMinor = 3;
-            int newMajor = 3;
-            int newMinor = 0;
+            const int oldMajor = 2;
+            const int oldMinor = 3;
+            const int newMajor = 3;
+            const int newMinor = 0;
 
             Mock<IPackage> oldPackage;
             Mock<IPackage> newPackage;
@@ -68,14 +57,14 @@ namespace SemanticVersionEnforcer.Tests
         [Test]
         public void GivenTwoPackages_WhenTheOlderOneContainsAdditionalInterfaces_ItShouldIncrementTheMajorAndResetTheMinor()
         {
-            String oldSource1 = "interface x { string GetSomething(); }";
-            String oldSource2 = "public class B { public void hello() { int x=7; } public void hello2() { int x=7; } }";
-            String newSource = "public class B { public void hello() { int x=7; } public void hello2() { int x=7; } }";
+            const String oldSource1 = "interface x { string GetSomething(); }";
+            const String oldSource2 = "public class B { public void hello() { int x=7; } public void hello2() { int x=7; } }";
+            const String newSource = "public class B { public void hello() { int x=7; } public void hello2() { int x=7; } }";
 
-            int oldMajor = 2;
-            int oldMinor = 3;
-            int newMajor = 3;
-            int newMinor = 0;
+            const int oldMajor = 2;
+            const int oldMinor = 3;
+            const int newMajor = 3;
+            const int newMinor = 0;
 
             Mock<IPackage> oldPackage;
             Mock<IPackage> newPackage;
@@ -88,13 +77,13 @@ namespace SemanticVersionEnforcer.Tests
         [Test]
         public void GivenTwoPackages_WhenTheOlderOneContainsAdditionalMethodsOnACommonInterface_ItShouldIncrementTheMajorAndResetTheMinor()
         {
-            String oldSource1 = "interface x { string GetSomething(); string GetSomething2(); }";
-            String newSource = "interface x { string GetSomething();  }";
+            const String oldSource1 = "interface x { string GetSomething(); string GetSomething2(); }";
+            const String newSource = "interface x { string GetSomething();  }";
 
-            int oldMajor = 2;
-            int oldMinor = 3;
-            int newMajor = 3;
-            int newMinor = 0;
+            const int oldMajor = 2;
+            const int oldMinor = 3;
+            const int newMajor = 3;
+            const int newMinor = 0;
 
             Mock<IPackage> oldPackage;
             Mock<IPackage> newPackage;
@@ -110,14 +99,14 @@ namespace SemanticVersionEnforcer.Tests
         [Test]
         public void GivenTwoPackages_WhenTheOlderOneContainsAdditionalPublicAbstractClass_ItShouldIncrementTheMajorAndResetTheMinor()
         {
-            String oldSource1 = "public abstract class abstractClass { public abstract void blah(); }";
-            String oldSource2 = "public class B { public void hello() { int x=7; } public void hello2() { int x=7; } }";
-            String newSource = "public class B { public void hello() { int x=7; } public void hello2() { int x=7; } }";
+            const String oldSource1 = "public abstract class abstractClass { public abstract void blah(); }";
+            const String oldSource2 = "public class B { public void hello() { int x=7; } public void hello2() { int x=7; } }";
+            const String newSource = "public class B { public void hello() { int x=7; } public void hello2() { int x=7; } }";
 
-            int oldMajor = 2;
-            int oldMinor = 3;
-            int newMajor = 3;
-            int newMinor = 0;
+            const int oldMajor = 2;
+            const int oldMinor = 3;
+            const int newMajor = 3;
+            const int newMinor = 0;
 
             Mock<IPackage> oldPackage;
             Mock<IPackage> newPackage;
@@ -131,15 +120,15 @@ namespace SemanticVersionEnforcer.Tests
         [Test]
         public void GivenTwoPackages_WhenTheOlderOneContainsAdditionalPublicMethodsInAnAbstractClass_ItShouldIncrementTheMajorAndResetTheMinor()
         {
-            String oldSource1 = "public abstract class abstractClass { public abstract void blah(); public abstract void blahBlah(); }";
-            String oldSource2 = "public class B { public void hello() { int x=7; } public void hello2() { int x=7; } }";
-            String newSource1 = "public abstract class abstractClass2 { public abstract void blah(); }";
-            String newSource2 = "public class B { public void hello() { int x=7; } public void hello2() { int x=7; } }";
+            const String oldSource1 = "public abstract class abstractClass { public abstract void blah(); public abstract void blahBlah(); }";
+            const String oldSource2 = "public class B { public void hello() { int x=7; } public void hello2() { int x=7; } }";
+            const String newSource1 = "public abstract class abstractClass2 { public abstract void blah(); }";
+            const String newSource2 = "public class B { public void hello() { int x=7; } public void hello2() { int x=7; } }";
 
-            int oldMajor = 2;
-            int oldMinor = 3;
-            int newMajor = 3;
-            int newMinor = 0;
+            const int oldMajor = 2;
+            const int oldMinor = 3;
+            const int newMajor = 3;
+            const int newMinor = 0;
 
             Mock<IPackage> oldPackage;
             Mock<IPackage> newPackage;

@@ -1,34 +1,26 @@
-﻿using System.IO;
-using System.Net.Security;
-using System.Reflection;
-using System.Reflection.Emit;
-using NuGet;
-using NuGet.Runtime;
-using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Moq;
-using Microsoft.CSharp;
+﻿using System;
 using System.CodeDom.Compiler;
-using System.CodeDom;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
+using Moq;
+using NuGet;
+using NUnit.Framework;
 
-namespace SemanticVersionEnforcer
+namespace SemanticVersionEnforcer.Tests
 {
     [SetUpFixture]
     public class SemanticVersionBase
     {
         
-        private static Random random = new Random();
-        private const string TEST_DLL_DIR = "Tests/TestData/AutoGen";
+        private static readonly Random Random = new Random();
+        private const string TestDllDir = "Tests/TestData/AutoGen";
 
         #region Test Setup and TearDown
             [SetUp]
 	        public void RunBeforeAnyTests()
 	        {
-                Directory.CreateDirectory(TEST_DLL_DIR);
+                Directory.CreateDirectory(TestDllDir);
 	        }
 
             [TearDown]
@@ -44,7 +36,7 @@ namespace SemanticVersionEnforcer
 
         protected void SetupMocks(string oldSource, string newSource, int oldMajor, int oldMinor, int newMajor, int newMinor, out Mock<IPackage> oldPackage, out Mock<IPackage> newPackage)
         {
-            this.SetupMocks(new List<String> { oldSource }, new List<String> { newSource }, oldMajor, oldMinor, newMajor, newMinor, out oldPackage, out newPackage);
+            SetupMocks(new List<String> { oldSource }, new List<String> { newSource }, oldMajor, oldMinor, newMajor, newMinor, out oldPackage, out newPackage);
         }
         protected void SetupMocks(List<String> oldSource, List<String> newSource, int oldMajor, int oldMinor, int newMajor, int newMinor, out Mock<IPackage> oldPackage, out Mock<IPackage> newPackage)
         {
@@ -72,24 +64,16 @@ namespace SemanticVersionEnforcer
         }
         protected String CreateAssembly(String sourceString, int major, int minor)
         {
-            return CreateAssembly(new List<String>() { sourceString }, major, minor);
+            return CreateAssembly(new List<String> { sourceString }, major, minor);
         }
         protected String CreateAssembly(List<String> sourceStrings, int major, int minor)
         {
-            String name = TEST_DLL_DIR + "/" + random.Next(100000) + ".dll";
-            System.CodeDom.Compiler.CompilerParameters parameters = new CompilerParameters();
-            parameters.GenerateExecutable = false;
-            parameters.OutputAssembly = name;
-            List<String> args = new List<String>();
-            foreach (String s in sourceStrings)
-            {
-                args.Add(s);
-            }
-            args.Add(GenerateAssemblySourceWithVersion(major, minor, 0, 0));
+            String name = TestDllDir + "/" + Random.Next(100000) + ".dll";
+            CompilerParameters parameters = new CompilerParameters {GenerateExecutable = false, OutputAssembly = name};
+            
+            CodeDomProvider.CreateProvider("CSharp").CompileAssemblyFromSource(parameters, sourceStrings.ToArray());
 
-            CompilerResults r = CodeDomProvider.CreateProvider("CSharp").CompileAssemblyFromSource(parameters, sourceStrings.ToArray());
-
-            Assembly result = Assembly.LoadFrom(name);
+            Assembly.LoadFrom(name);
             return name;
         }
         #endregion

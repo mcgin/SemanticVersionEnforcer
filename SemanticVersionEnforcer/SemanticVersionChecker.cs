@@ -1,14 +1,11 @@
-﻿using System.Reflection;
-using NuGet;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using NuGet;
 
 namespace SemanticVersionEnforcer
 {
-    interface x { string GetSomething(); }
-    public abstract class abstractClass { public abstract void blah(); }
-        
     public class SemanticVersionChecker
     {
 		
@@ -29,13 +26,9 @@ namespace SemanticVersionEnforcer
                 }
             }
 
-			foreach (MethodDescriptor methodInfo in publicMethodsInOldPackage)
+			if (publicMethodsInOldPackage.Any(methodInfo => !publicMethodsInNewPackage.Contains(methodInfo)))
 			{
-				if (!publicMethodsInNewPackage.Contains(methodInfo))
-				{
-					return new Version(semanticVersion.Major+1, 0);
-				}
-                
+			    return new Version(semanticVersion.Major+1, 0);
 			}
             return semanticVersion;
         }
@@ -69,8 +62,7 @@ namespace SemanticVersionEnforcer
             SortedSet<ComparableType> types = new SortedSet<ComparableType>();
             foreach (IPackageFile file in package.GetFiles())
             {
-				var fileName = file.EffectivePath;
-                if (file.EffectivePath.EndsWith(".dll", StringComparison.OrdinalIgnoreCase))
+				if (file.EffectivePath.EndsWith(".dll", StringComparison.OrdinalIgnoreCase))
                 {
                     Assembly assembly = Assembly.Load(file.GetStream().ReadAllBytes());
                     foreach (var type in assembly.GetTypes())

@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SemanticVersionEnforcer
 {
@@ -23,7 +18,7 @@ namespace SemanticVersionEnforcer
         public int CompareTo(object other)
         {
             
-            return this.ToString().CompareTo(other.ToString());
+            return String.Compare(ToString(), other.ToString(), StringComparison.Ordinal);
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 
 namespace SemanticVersionEnforcer
@@ -14,14 +15,14 @@ namespace SemanticVersionEnforcer
 
         public override string ToString()
         {
-            return Type.ToString() + ", " + ReturnType.ToString() + ", " + Name;
+            return Type + ", " + ReturnType + ", " + Name;
         }
 
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != this.GetType()) return false;
+            if (obj.GetType() != GetType()) return false;
             return Equals((MethodDescriptor) obj);
         }
         protected bool Equals(MethodDescriptor other)
@@ -36,14 +37,7 @@ namespace SemanticVersionEnforcer
         private bool ParamsEqual(ParameterInfo[] otherParams)
         {
             if (otherParams.Length != Parameters.Length) {return false;}
-            for (int i = 0; i < Parameters.Length; i++)
-            {
-                if (!otherParams[i].ParameterType.ToString().Equals(Parameters[i].ParameterType.ToString()))
-                {
-                    return false;
-                }
-            }
-            return true;
+            return !Parameters.Where((t, i) => !otherParams[i].ParameterType.ToString().Equals(t.ParameterType.ToString())).Any();
         }
 
         public override int GetHashCode()

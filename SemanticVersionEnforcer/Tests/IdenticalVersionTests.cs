@@ -1,19 +1,9 @@
-﻿using System.IO;
-using System.Net.Security;
-using System.Reflection;
-using System.Reflection.Emit;
-using NuGet;
-using NuGet.Runtime;
-using NUnit.Framework;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 using Moq;
-using Microsoft.CSharp;
-using System.CodeDom.Compiler;
-using System.CodeDom;
+using NuGet;
+using NUnit.Framework;
 
 namespace SemanticVersionEnforcer.Tests
 {
@@ -25,13 +15,13 @@ namespace SemanticVersionEnforcer.Tests
         [Test]
         public void GivenTwoPackages_WhenTheyBothContainTheSameAbstractClass_ItShouldHaveTheySameVersionNumbers()
         {
-            String oldSource = "public abstract class abstractClass { public abstract void blah(); }";
-            String newSource = "public abstract class abstractClass { public abstract void blah(); }";
+            const string oldSource = "public abstract class abstractClass { public abstract void blah(); }";
+            const string newSource = "public abstract class abstractClass { public abstract void blah(); }";
 
-            int oldMajor = 2;
-            int oldMinor = 3;
-            int newMajor = 2;
-            int newMinor = 3;
+            const int oldMajor = 2;
+            const int oldMinor = 3;
+            const int newMajor = 2;
+            const int newMinor = 3;
 
             Mock<IPackage> oldPackage;
             Mock<IPackage> newPackage;
@@ -48,13 +38,13 @@ namespace SemanticVersionEnforcer.Tests
         [Test]
         public void GivenTwoPackages_WhenTheyBothContainTheSameInterfaces_ItShouldHaveTheSameVersion()
         {
-            String oldSource = "interface x { string GetSomething(); }";
-            String newSource = "interface x { string GetSomething(); }";
+            const String oldSource = "interface x { string GetSomething(); }";
+            const String newSource = "interface x { string GetSomething(); }";
 
-            int oldMajor = 2;
-            int oldMinor = 3;
-            int newMajor = 2;
-            int newMinor = 3;
+            const int oldMajor = 2;
+            const int oldMinor = 3;
+            const int newMajor = 2;
+            const int newMinor = 3;
 
             Mock<IPackage> oldPackage;
             Mock<IPackage> newPackage;
@@ -69,13 +59,13 @@ namespace SemanticVersionEnforcer.Tests
         [Test]
         public void GivenTwoPackages_WhenTheNewerOneContainsAdditionalPrivateMethods_ItShouldHaveTheSameVersion()
         {
-            String oldSource = "public class B { public void hello() { int x=7; } }";
-            String newSource = "public class B { public void hello() { int x=7; } private void hello2() { int x=7; } }";
+            const String oldSource = "public class B { public void hello() { int x=7; } }";
+            const String newSource = "public class B { public void hello() { int x=7; } private void hello2() { int x=7; } }";
 
-            int oldMajor = 2;
-            int oldMinor = 3;
-            int newMajor = 2;
-            int newMinor = 3;
+            const int oldMajor = 2;
+            const int oldMinor = 3;
+            const int newMajor = 2;
+            const int newMinor = 3;
 
             Mock<IPackage> oldPackage;
             Mock<IPackage> newPackage;
@@ -91,14 +81,14 @@ namespace SemanticVersionEnforcer.Tests
         [Test]
         public void GivenTwoPackages_WhenTheNewerOneContainsAdditionalInternalClasses_ItShouldHaveTheSameVersion()
         {
-            String oldSource = "public class B { public void hello() { int x=7; } }";
-            String newSource = "public class B { public void hello() { int x=7; } }";
-            String newSource2 = "internal class C { public void hellc() { int x=7; } }";
+            const String oldSource = "public class B { public void hello() { int x=7; } }";
+            const String newSource = "public class B { public void hello() { int x=7; } }";
+            const String newSource2 = "internal class C { public void hellc() { int x=7; } }";
 
-            int oldMajor = 2;
-            int oldMinor = 3;
-            int newMajor = 2;
-            int newMinor = 3;
+            const int oldMajor = 2;
+            const int oldMinor = 3;
+            const int newMajor = 2;
+            const int newMinor = 3;
 
             Mock<IPackage> oldPackage;
             Mock<IPackage> newPackage;
@@ -147,13 +137,13 @@ namespace SemanticVersionEnforcer.Tests
         [Test]
         public void GivenTwoPackages_WhenTheyAreTheSame_ItShouldHaveTheSameMajorAndMinorVersion()
         {
-            String oldSource = "public class B { public void hello() { int x=7; } }";
-            String newSource = "public class B { public void hello() { int x=7; } }";
+            const String oldSource = "public class B { public void hello() { int x=7; } }";
+            const String newSource = "public class B { public void hello() { int x=7; } }";
 
-            int oldMajor = 2;
-            int oldMinor = 3;
-            int newMajor = 2;
-            int newMinor = 3;
+            const int oldMajor = 2;
+            const int oldMinor = 3;
+            const int newMajor = 2;
+            const int newMinor = 3;
 
             Mock<IPackage> oldPackage;
             Mock<IPackage> newPackage;
