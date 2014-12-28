@@ -7,8 +7,8 @@
     <ProjectGuid>{04487C90-7461-42AC-AB70-B658ACF6506C}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SemanticVersionEnforcer.Executable</RootNamespace>
-    <AssemblyName>SemanticVersionEnforcer.Executable</AssemblyName>
+    <RootNamespace>SemanticVersionEnforcer</RootNamespace>
+    <AssemblyName>SemanticVersionEnforcer</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -54,6 +54,7 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="SemanticVersionEnforcer.nuspec" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SemanticVersionEnforcer.Core\SemanticVersionEnforcer.Core.csproj">
