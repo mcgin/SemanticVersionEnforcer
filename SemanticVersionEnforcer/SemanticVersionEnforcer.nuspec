@@ -4,7 +4,6 @@
     <id>$id$</id>
     <title>Semantic Version Enforcer</title>
     <version>$version$</version>
-    <title>$title$</title>
     <authors>Aidan McGinley</authors>
     <licenseUrl>https://github.com/mcgin/SemanticVersionEnforcer/blob/master/LICENCE.txt</licenseUrl>
     <projectUrl>https://github.com/mcgin/SemanticVersionEnforcer</projectUrl>
