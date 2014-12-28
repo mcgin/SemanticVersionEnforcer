@@ -10,7 +10,7 @@ namespace SemanticVersionEnforcer.Core
 {
     public class SemanticVersionChecker
     {
-        private const Boolean Debug = true;
+        private const Boolean Debug = false;
         public Version DetermineCorrectSemanticVersion(IPackage oldPackage, IPackage newPackage, String[] assembliesBoundBySemanticVersioningContract)
         {
             throw new NotSupportedException("Filtering not yet implemented, not even sure I want to implement it....");
