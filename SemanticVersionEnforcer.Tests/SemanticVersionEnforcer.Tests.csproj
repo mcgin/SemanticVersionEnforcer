@@ -67,6 +67,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExecutableTests.cs" />
     <Compile Include="IdenticalVersionTests.cs" />
     <Compile Include="MajorVersionTests.cs" />
     <Compile Include="MinorVersionTests.cs" />
