@@ -4,10 +4,11 @@ using System.IO;
 using Moq;
 using NuGet;
 using NUnit.Framework;
+using SemanticVersionEnforcer.Core;
 
 namespace SemanticVersionEnforcer.Tests
 {
-    class IdenticalVersionTests :SemanticVersionBase
+    class IdenticalVersionTests : SemanticVersionBase
     {
         #region Abstract Classes
         [Test]

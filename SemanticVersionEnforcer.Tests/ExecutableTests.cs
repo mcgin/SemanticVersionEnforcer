@@ -1,11 +1,17 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
+using System.Reflection;
+using NuGet;
 using NUnit.Framework;
+using SemanticVersionEnforcer.Core;
 
 namespace SemanticVersionEnforcer.Tests
 {
     class ExecutableTests
     {
+        private readonly PackagePublicationVersionTests _packagePublicationVersionTests = new PackagePublicationVersionTests();
+
         [Test]
         public void GivenTheExecutableFile_WhenIRunItWithNoArguments_ThenTheUsageIsDisplayed()
         {
@@ -45,7 +51,7 @@ namespace SemanticVersionEnforcer.Tests
         [Test]
         public void GivenTheExecutableFile_WhenIRunItWithTwoFilesThatDoNotExist_ThenAnAppropriateErrorMessageIsPrinted()
         {
-            string filename = "fileName";
+            const string filename = "fileName";
             StringWriter sw = new StringWriter();
             Console.SetError(sw);
 
@@ -57,6 +63,5 @@ namespace SemanticVersionEnforcer.Tests
             Assert.IsTrue(console.Contains(String.Format("Could not find file")), "The error message is not correct: {0}", console);
             Assert.IsTrue(console.Contains(String.Format(filename)), "The error message is not correct: {0}", console);
         }
-
     }
 }

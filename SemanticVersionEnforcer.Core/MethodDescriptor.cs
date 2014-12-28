@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Reflection;
 
-namespace SemanticVersionEnforcer
+namespace SemanticVersionEnforcer.Core
 {
     internal class MethodDescriptor
     {

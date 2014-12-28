@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SemanticVersionEnforcer
+namespace SemanticVersionEnforcer.Core
 {
     internal class ComparableType : IComparable
     {

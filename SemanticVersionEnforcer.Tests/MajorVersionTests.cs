@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Moq;
 using NuGet;
 using NUnit.Framework;
+using SemanticVersionEnforcer.Core;
 
 namespace SemanticVersionEnforcer.Tests
 {

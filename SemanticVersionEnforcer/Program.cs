@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace SemanticVersionEnforcer
+namespace SemanticVersionEnforcer.Core
 {
     public class Program
     {
