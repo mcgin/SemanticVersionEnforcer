@@ -9,8 +9,6 @@ namespace SemanticVersionEnforcer.Tests
 {
     class IdenticalVersionTests :SemanticVersionBase
     {
-        #region SameVersion
-
         #region Abstract Classes
         [Test]
         public void GivenTwoPackages_WhenTheyBothContainTheSameAbstractClass_ItShouldHaveTheySameVersionNumbers()
@@ -132,6 +130,13 @@ namespace SemanticVersionEnforcer.Tests
             Assert.AreEqual(new Version(2, 6), checker.DetermineCorrectSemanticVersion(mockPackage.Object, newMockPackage.Object));
 
         }
+        [Test]
+        public void GivenTwoIdenticalPackages_WhenTheSemanticVersionIsCalculatedByPassingTheFilesAsStrings_ItShouldBeTheSameVersionAsTheOldOne()
+        {
+            SemanticVersionChecker checker = new SemanticVersionChecker();
+            Assert.AreEqual(new Version(1, 0), checker.DetermineCorrectSemanticVersion("TestData/SemanticVersionEnforcer.1.0.1.0.nupkg", "TestData/SemanticVersionEnforcer.1.0.1.0.nupkg"));
+
+        }
         #endregion
 
         [Test]
@@ -152,6 +157,5 @@ namespace SemanticVersionEnforcer.Tests
             SemanticVersionChecker checker = new SemanticVersionChecker();
             Assert.AreEqual(new Version(2, 3), checker.DetermineCorrectSemanticVersion(oldPackage.Object, newPackage.Object));
         }
-        #endregion
     }
 }

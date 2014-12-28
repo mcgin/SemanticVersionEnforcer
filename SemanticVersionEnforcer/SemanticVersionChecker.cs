@@ -13,6 +13,11 @@ namespace SemanticVersionEnforcer
             throw new NotSupportedException("Filtering not yet implemented, not even sure I want to implement it....");
         }
 
+        public Version DetermineCorrectSemanticVersion(String oldPackage, String newPackage)
+        {
+            return DetermineCorrectSemanticVersion(new ZipPackage(oldPackage), new ZipPackage(newPackage));
+        }
+
         public Version DetermineCorrectSemanticVersion(IPackage oldPackage, IPackage newPackage)
         {
             ISet<MethodDescriptor> publicMethodsInOldPackage = EnumeratePublicMethods(oldPackage);

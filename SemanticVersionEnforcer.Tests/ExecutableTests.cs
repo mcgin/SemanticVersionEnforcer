@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Moq;
 using NUnit.Framework;
 
 namespace SemanticVersionEnforcer.Tests
@@ -56,8 +51,11 @@ namespace SemanticVersionEnforcer.Tests
 
             var exitCode = Program.Main(new string[2] { filename, filename });
 
+            string console = sw.ToString();
             Assert.AreEqual(1, exitCode, "Program exit code is incorrect");
-            Assert.IsTrue(sw.ToString().Contains(String.Format("Error the file {0} dies not exist", filename)), "The error message is not correct");
+            //TODO Use a regex
+            Assert.IsTrue(console.Contains(String.Format("Could not find file")), "The error message is not correct: {0}", console);
+            Assert.IsTrue(console.Contains(String.Format(filename)), "The error message is not correct: {0}", console);
         }
 
     }

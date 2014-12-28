@@ -6,7 +6,6 @@ namespace SemanticVersionEnforcer
 {
     internal class MethodDescriptor
     {
-       
         public Type Type { get; set; }
         public ParameterInfo ReturnType { get; set; }
         public string Name { get; set; }

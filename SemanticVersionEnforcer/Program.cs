@@ -12,19 +12,20 @@ namespace SemanticVersionEnforcer
                 PrintUsage();
                 return 1;
             }
-
-            string file1 = args[0];
-            string file2 = args[1];
-            if (!File.Exists(file1))
+            SemanticVersionChecker checker = new SemanticVersionChecker();
+            
+            Version version = new Version();
+            try
             {
-                Console.Error.WriteLine("Error the file {0} dies not exist", file1);
+                version = checker.DetermineCorrectSemanticVersion(args[0], args[1]);
+            }
+            catch (FileNotFoundException e)
+            {
+                Console.Error.WriteLine(e.Message);
                 return 1;
             }
-            if (!File.Exists(file2))
-            {
-                Console.Error.WriteLine("Error the file {0} dies not exist", file2);
-                return 1;
-            }
+            
+            Console.WriteLine(version);
             return 0;
         }
 
