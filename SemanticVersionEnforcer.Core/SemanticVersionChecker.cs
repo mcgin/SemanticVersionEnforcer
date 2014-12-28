@@ -10,7 +10,6 @@ namespace SemanticVersionEnforcer.Core
 {
     public class SemanticVersionChecker
     {
-        private const Boolean Debug = false;
         public Version DetermineCorrectSemanticVersion(IPackage oldPackage, IPackage newPackage, String[] assembliesBoundBySemanticVersioningContract)
         {
             throw new NotSupportedException("Filtering not yet implemented, not even sure I want to implement it....");
@@ -26,11 +25,7 @@ namespace SemanticVersionEnforcer.Core
             ISet<MethodDescriptor> publicMethodsInOldPackage = EnumeratePublicMethods(oldPackage);
             ISet<MethodDescriptor> publicMethodsInNewPackage = EnumeratePublicMethods(newPackage);
             Version semanticVersion = new Version(oldPackage.Version.Version.Major, oldPackage.Version.Version.Minor);
-            if (Debug)
-            {
-                Console.WriteLine("Old methods: " + SetToString(publicMethodsInOldPackage));
-                Console.WriteLine("New methods: " + SetToString(publicMethodsInNewPackage));
-            }
+            
             foreach (MethodDescriptor methodInfo in publicMethodsInNewPackage)
             {
                 if (!publicMethodsInOldPackage.Contains(methodInfo))
