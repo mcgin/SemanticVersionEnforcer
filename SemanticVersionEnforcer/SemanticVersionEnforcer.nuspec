@@ -10,19 +10,7 @@
     <projectUrl>https://github.com/mcgin/SemanticVersionEnforcer</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Compares two NuGet packages to determine if the Major and Minor version are semantically correct based on the publicly exposed classes/methods.</description>
-    <releaseNotes>Including .EXEs in the analysed files (now EXE + DLL are included)</releaseNotes>
     <copyright>Copyright 2014</copyright>
     <tags>NuGet Package 'Semantic Version' version semantic versioning</tags>
-    <dependencies>
-      <dependency id="NuGet.Core" version="2.8.3" />
-    </dependencies>
-    <frameworkAssemblies>
-      <frameworkAssembly assemblyName="System" targetFramework="net40" />
-      <frameworkAssembly assemblyName="System.Core" targetFramework="net40"/>
-    </frameworkAssemblies>
   </metadata>
-  <files>
-    <file src="bin\Release\SemanticVersionEnforcer.Core.dll" target="lib" />
-    <file src="bin\Release\SemanticVersionEnforcer.exe" target="lib" />
-  </files>
 </package>

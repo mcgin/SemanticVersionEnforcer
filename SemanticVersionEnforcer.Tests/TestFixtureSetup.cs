@@ -17,7 +17,6 @@ namespace SemanticVersionEnforcer.Tests
         [TearDown]
         public void RunAfterAnyTests()
         {
-            //TODO: Fix the race condition so this gets deleted
             Directory.Delete(TestDllDir, true);
         }
     }
