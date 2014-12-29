@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using NuGet;
@@ -31,6 +32,7 @@ namespace SemanticVersionEnforcer.Tests
             PackageBuilder builder = new PackageBuilder();
             builder.Populate(metadata);
             builder.PopulateFiles(".", new[] { new ManifestFile() { Source = "SemanticVersionEnforcer.Core.dll" } });
+            builder.PopulateFiles(".", new[] { new ManifestFile() { Source = "SemanticVersionEnforcer.exe" } });
             using (FileStream stream = File.Open(testFileName, FileMode.OpenOrCreate))
             {
                 builder.Save(stream);
@@ -43,8 +45,9 @@ namespace SemanticVersionEnforcer.Tests
 
             var expectedVersion = new SemanticVersionChecker().DetermineCorrectSemanticVersion(oldPackage, newPackage);
 
-            Assert.AreEqual(expectedVersion.Major, version.Major, "Major version mismatch: {0} instead of {1}", version, expectedVersion);
-            Assert.AreEqual(expectedVersion.Minor, version.Minor, "Minor version mismatch: {0} instead of {1}", version, expectedVersion);
+            Version comparisonVersion = new Version(version.Major, version.Minor);
+            
+            Assert.GreaterOrEqual(comparisonVersion, expectedVersion);
         }
     }
 }

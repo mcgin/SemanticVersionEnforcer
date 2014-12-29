@@ -68,7 +68,7 @@ namespace SemanticVersionEnforcer.Core
             SortedSet<ComparableType> types = new SortedSet<ComparableType>();
             foreach (IPackageFile file in package.GetFiles())
             {
-				if (file.EffectivePath.EndsWith(".dll", StringComparison.OrdinalIgnoreCase))
+                if (file.EffectivePath.EndsWith(".dll", StringComparison.OrdinalIgnoreCase) || file.EffectivePath.EndsWith(".exe", StringComparison.OrdinalIgnoreCase))
                 {
                     Assembly assembly = Assembly.Load(file.GetStream().ReadAllBytes());
                     foreach (var type in assembly.GetTypes())
