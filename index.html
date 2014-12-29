@@ -1,51 +1,77 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
+
   <head>
-    <meta charset="utf-8">
+    <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Semantic Version Enforcer by mcgin</title>
+    <meta name="description" content="Semantic Version Enforcer : ">
 
-    <link rel="stylesheet" href="stylesheets/styles.css">
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Semantic Version Enforcer</title>
   </head>
+
   <body>
-    <div class="wrapper">
-      <header>
-        <h1>Semantic Version Enforcer</h1>
-        <p></p>
 
-        <p class="view"><a href="https://github.com/mcgin/SemanticVersionEnforcer">View the Project on GitHub <small>mcgin/SemanticVersionEnforcer</small></a></p>
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/mcgin/SemanticVersionEnforcer">View on GitHub</a>
 
+          <h1 id="project_title">Semantic Version Enforcer</h1>
+          <h2 id="project_tagline"></h2>
 
-        <ul>
-          <li><a href="https://github.com/mcgin/SemanticVersionEnforcer/zipball/master">Download <strong>ZIP File</strong></a></li>
-          <li><a href="https://github.com/mcgin/SemanticVersionEnforcer/tarball/master">Download <strong>TAR Ball</strong></a></li>
-          <li><a href="https://github.com/mcgin/SemanticVersionEnforcer">View On <strong>GitHub</strong></a></li>
-        </ul>
-      </header>
-      <section>
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/mcgin/SemanticVersionEnforcer/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/mcgin/SemanticVersionEnforcer/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
         <h1>
 <a id="semanticversionenforcer" class="anchor" href="#semanticversionenforcer" aria-hidden="true"><span class="octicon octicon-link"></span></a>SemanticVersionEnforcer</h1>
 
-<p>Compares two NuGet packages to determine if the Major and Minor version are semantically correct based on the publicly exposed classes/methods.</p>
+<p>Compares two NuGet packages to determine if the Major and Minor version are semantically correct based on the publicly exposed classes/methods.<br>
+Semantic Version Enforcer is available as a <a href="https://www.nuget.org/packages/SemanticVersionEnforcer/">package on NuGet</a></p>
 
-<p>Link to nuget</p>
+<h1>
+<a id="try-it-out" class="anchor" href="#try-it-out" aria-hidden="true"><span class="octicon octicon-link"></span></a>Try it out</h1>
 
-<pre><code>Instructions for use
+<p>If you don't wish to compile the code yourself you can obtain it using Nuget:</p>
+
+<pre><code>NuGet.exe install SemanticVersionEnforcer -OutputDirectory SemanticVersionEnforcer  -ExcludeVersion
+copy .\SemanticVersionEnforcer\Nuget.Core\lib\net40-Client\NuGet.Core.dll .\SemanticVersionEnforcer\SemanticVersionEnforcer\lib\net45
 </code></pre>
+
+<p>All you need to execute the tool will be in the <code>.\SemanticVersionEnforcer\SemanticVersionEnforcer\lib\net45</code> directory, simply copy all the files in that directory to a convenient location<br>
+You can test it by comparing the Semantic Version Enforcer package against itself which should print out the latest stable Major/Minor version.</p>
+
+<pre><code>.\SemanticVersionEnforcer\SemanticVersionEnforcer\lib\net45\SemanticVersionEnforcer .\SemanticVersionEnforcer\SemanticVersionEnforcer\SemanticVersionEnforcer.nupkg .\SemanticVersionEnforcer\SemanticVersionEnforcer\SemanticVersionEnforcer.nupkg
+</code></pre>
+
+<h1>
+<a id="use-it-programmatically" class="anchor" href="#use-it-programmatically" aria-hidden="true"><span class="octicon octicon-link"></span></a>Use it Programmatically</h1>
+
+<p>If you wish to use the Enforcer programmatically you can interact with it programmatically via the <a href="https://github.com/mcgin/SemanticVersionEnforcer/blob/master/SemanticVersionEnforcer.Core/ISemanticVersionChecker.cs">ISemanticVersionChecker Interface</a>.<br>
+Most usecases for this are via some form of test which is executed before a package is published to ensure it conforms at some basic level with semantic versioning.<br>
+An example of how this can be achieved can be seen in the <a href="https://github.com/mcgin/SemanticVersionEnforcer/blob/master/SemanticVersionEnforcer.Tests/PackagePublicationVersionTests.cs">PackagePublicationVersionTests</a> test.  </p>
 
 <p><a href="https://travis-ci.org/mcgin/SemanticVersionEnforcer"><img src="https://travis-ci.org/mcgin/SemanticVersionEnforcer.svg?branch=master" alt="Build Status"></a></p>
       </section>
-      <footer>
-        <p>This project is maintained by <a href="https://github.com/mcgin">mcgin</a></p>
-        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Semantic Version Enforcer maintained by <a href="https://github.com/mcgin">mcgin</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
       </footer>
     </div>
-    <script src="javascripts/scale.fix.js"></script>
+
     
+
   </body>
 </html>
