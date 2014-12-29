@@ -21,11 +21,27 @@ namespace SemanticVersionEnforcer.Tests
         }
 
         [Test]
+        [Ignore("Provided as a simple example of usage, not really a useful test")]
+        public void AStraightForwardExample()
+        {
+            const string packageToCheck = "SemanticVersionEnforcer";
+            var oldVersion = new SemanticVersion(2, 1, 1, 0);
+            var newVersion = new SemanticVersion(2, 2, 0, 0);
+
+            var oldPackage = repo.FindPackagesById(packageToCheck).Single(x => x.Version.Equals(oldVersion));
+            var newPackage = repo.FindPackagesById(packageToCheck).Single(x => x.Version.Equals(newVersion));
+
+            var expectedVersion = new SemanticVersionChecker().DetermineCorrectSemanticVersion(oldPackage, newPackage);
+
+            Assert.AreEqual(new Version(2, 2), expectedVersion);
+        }
+
+        [Test]
         [Category("Integration")]
         public void TheVersionNumberOfTheAssemblyShouldBeSemanticallyCorrect()
         {
             var newPackageVersion = DynamicallyCreateNewPackageFromSource();
-            
+
             var oldPackage = repo.FindPackagesById(PackageId).Single(item => item.IsLatestVersion);
             var newPackage = new ZipPackage(testFileName);
 
