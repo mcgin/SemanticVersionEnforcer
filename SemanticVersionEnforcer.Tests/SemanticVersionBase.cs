@@ -5,34 +5,12 @@ using System.IO;
 using System.Reflection;
 using Moq;
 using NuGet;
-using NUnit.Framework;
 
 namespace SemanticVersionEnforcer.Tests
 {
-    [SetUpFixture]
     public class SemanticVersionBase
     {
-        private const string TestDllDir = "Tests/TestData/AutoGen";
         private static readonly Random Random = new Random();
-
-        #region Test Setup and TearDown
-
-        [SetUp]
-        public void RunBeforeAnyTests()
-        {
-            Directory.CreateDirectory(TestDllDir);
-        }
-
-        [TearDown]
-        public void RunAfterAnyTests()
-        {
-            //TODO: Fix the race condition so this gets deleted
-            //Directory.Delete(TEST_DLL_DIR, true);
-        }
-
-        #endregion
-
-        #region Helpers
 
         protected void SetupMocks(string oldSource, string newSource, int oldMajor, int oldMinor, int newMajor,
             int newMinor, out Mock<IPackage> oldPackage, out Mock<IPackage> newPackage)
@@ -76,7 +54,7 @@ namespace SemanticVersionEnforcer.Tests
 
         protected String CreateAssembly(List<String> sourceStrings, int major, int minor)
         {
-            var name = TestDllDir + "/" + Random.Next(100000) + ".dll";
+            var name = TestFixtureSetup.TestDllDir + "/" + Random.Next(100000) + ".dll";
             var parameters = new CompilerParameters {GenerateExecutable = false, OutputAssembly = name};
 
             CodeDomProvider.CreateProvider("CSharp").CompileAssemblyFromSource(parameters, sourceStrings.ToArray());
@@ -84,7 +62,5 @@ namespace SemanticVersionEnforcer.Tests
             Assembly.LoadFrom(name);
             return name;
         }
-
-        #endregion
     }
 }

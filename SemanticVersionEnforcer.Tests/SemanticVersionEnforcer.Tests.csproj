@@ -75,6 +75,7 @@
     <Compile Include="PackagePublicationVersionTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SemanticVersionBase.cs" />
+    <Compile Include="TestFixtureSetup.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="TestData\nunit.framework.2.6.2.dll">
