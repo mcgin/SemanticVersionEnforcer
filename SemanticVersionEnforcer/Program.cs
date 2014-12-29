@@ -15,7 +15,7 @@ namespace SemanticVersionEnforcer
             }
             var checker = new SemanticVersionChecker();
 
-            var version = new Version();
+            Version version;
             try
             {
                 version = checker.DetermineCorrectSemanticVersion(args[0], args[1]);

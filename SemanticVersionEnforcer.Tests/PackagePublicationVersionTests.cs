@@ -28,6 +28,8 @@ namespace SemanticVersionEnforcer.Tests
             var oldVersion = new SemanticVersion(2, 1, 1, 0);
             var newVersion = new SemanticVersion(2, 2, 0, 0);
 
+            // Here we will use the packages from nuget, however you could just as easily use 
+            // local files via the DetermineCorrectSemanticVersion(String, String) method
             var oldPackage = repo.FindPackagesById(packageToCheck).Single(x => x.Version.Equals(oldVersion));
             var newPackage = repo.FindPackagesById(packageToCheck).Single(x => x.Version.Equals(newVersion));
 
