@@ -1,5 +1,6 @@
 <?xml version="1.0"?>
-<package >
+
+<package>
   <metadata>
     <id>SemanticVersionEnforcer</id>
     <title>Semantic Version Enforcer</title>
@@ -17,7 +18,7 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="bin\Release\SemanticVersionEnforcer.Core.dll" target="lib" /> 
-	  <file src="bin\Release\SemanticVersionEnforcer.exe" target="lib" />
+    <file src="bin\Release\SemanticVersionEnforcer.Core.dll" target="lib" />
+    <file src="bin\Release\SemanticVersionEnforcer.exe" target="lib" />
   </files>
 </package>

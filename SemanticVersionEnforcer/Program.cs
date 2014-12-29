@@ -13,9 +13,9 @@ namespace SemanticVersionEnforcer
                 PrintUsage();
                 return 1;
             }
-            SemanticVersionChecker checker = new SemanticVersionChecker();
-            
-            Version version = new Version();
+            var checker = new SemanticVersionChecker();
+
+            var version = new Version();
             try
             {
                 version = checker.DetermineCorrectSemanticVersion(args[0], args[1]);
@@ -25,7 +25,7 @@ namespace SemanticVersionEnforcer
                 Console.Error.WriteLine(e.Message);
                 return 1;
             }
-            
+
             Console.WriteLine(version);
             return 0;
         }

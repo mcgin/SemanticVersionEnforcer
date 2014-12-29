@@ -11,7 +11,6 @@ namespace SemanticVersionEnforcer.Core
         public string Name { get; set; }
         public ParameterInfo[] Parameters { get; set; }
 
-
         public override string ToString()
         {
             return Type + ", " + ReturnType + ", " + Name;
@@ -24,36 +23,40 @@ namespace SemanticVersionEnforcer.Core
             if (obj.GetType() != GetType()) return false;
             return Equals((MethodDescriptor) obj);
         }
+
         protected bool Equals(MethodDescriptor other)
         {
-            
-            return Equals(Type.ToString(), other.Type.ToString()) && 
-                Equals(ReturnType.ToString(), other.ReturnType.ToString()) && 
-                string.Equals(Name, other.Name) && 
-                ParamsEqual(other.Parameters);
+            return Equals(Type.ToString(), other.Type.ToString()) &&
+                   Equals(ReturnType.ToString(), other.ReturnType.ToString()) &&
+                   string.Equals(Name, other.Name) &&
+                   ParamsEqual(other.Parameters);
         }
 
         private bool ParamsEqual(ParameterInfo[] otherParams)
         {
-            if (otherParams.Length != Parameters.Length) {return false;}
-            return !Parameters.Where((t, i) => !otherParams[i].ParameterType.ToString().Equals(t.ParameterType.ToString())).Any();
+            if (otherParams.Length != Parameters.Length)
+            {
+                return false;
+            }
+            return
+                !Parameters.Where((t, i) => !otherParams[i].ParameterType.ToString().Equals(t.ParameterType.ToString()))
+                    .Any();
         }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                int hashCode = (Type != null ? Type.ToString().GetHashCode() : 0); 
-                hashCode = (hashCode * 397) ^ (ReturnType != null ? ReturnType.ToString().GetHashCode() : 0);
-                hashCode = (hashCode * 397) ^ (Name != null ? Name.GetHashCode() : 0);
-                foreach (ParameterInfo p in Parameters)
+                var hashCode = (Type != null ? Type.ToString().GetHashCode() : 0);
+                hashCode = (hashCode*397) ^ (ReturnType != null ? ReturnType.ToString().GetHashCode() : 0);
+                hashCode = (hashCode*397) ^ (Name != null ? Name.GetHashCode() : 0);
+                foreach (var p in Parameters)
                 {
-                    hashCode = (hashCode * 397) ^ (p != null ? p.ParameterType.ToString().GetHashCode() : 0);
-                    hashCode = (hashCode * 397) ^ (p != null ? p.Position.GetHashCode() : 0);
+                    hashCode = (hashCode*397) ^ (p != null ? p.ParameterType.ToString().GetHashCode() : 0);
+                    hashCode = (hashCode*397) ^ (p != null ? p.Position.GetHashCode() : 0);
                 }
                 return hashCode;
             }
         }
-
     }
 }
