@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ComparableType.cs" />
+    <Compile Include="ISemanticVersionChecker.cs" />
     <Compile Include="MethodDescriptor.cs" />
     <Compile Include="SemanticVersionChecker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

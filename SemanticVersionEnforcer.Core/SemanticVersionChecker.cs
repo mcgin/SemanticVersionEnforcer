@@ -6,7 +6,7 @@ using NuGet;
 
 namespace SemanticVersionEnforcer.Core
 {
-    public class SemanticVersionChecker
+    public class SemanticVersionChecker : ISemanticVersionChecker
     {
         public Version DetermineCorrectSemanticVersion(String oldPackage, String newPackage)
         {
