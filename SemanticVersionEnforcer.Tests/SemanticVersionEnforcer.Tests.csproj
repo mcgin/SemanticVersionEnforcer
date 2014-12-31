@@ -71,7 +71,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ExternalNugetRepoTests.cs" />
-    <Compile Include="SemanticVersionEnforcerFactoryTests.cs" />
     <Compile Include="ExecutableTests.cs" />
     <Compile Include="IdenticalVersionTests.cs" />
     <Compile Include="MajorVersionTests.cs" />
