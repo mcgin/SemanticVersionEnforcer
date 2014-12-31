@@ -8,6 +8,24 @@ namespace SemanticVersionEnforcer.Core
 {
     public class SemanticVersionChecker : ISemanticVersionChecker
     {
+        private IPackageRepository repo;
+        [Obsolete("Use SemanticVersionCheckerFactory instead, cannot guarantee this method will exist in versions >= 3.x")]
+        public SemanticVersionChecker() : this(PackageRepositoryFactory.Default.CreateRepository("https://packages.nuget.org/api/v2"))
+        {
+        }
+
+        public SemanticVersionChecker(IPackageRepository repository)
+        {
+            repo = repository;
+        }
+        public Version DetermineCorrectSemanticVersion(string package)
+        {
+            var newPackage = new ZipPackage(package);
+            var oldPackage = repo.FindPackagesById(newPackage.Id).Single(x=>x.IsLatestVersion);
+
+            return DetermineCorrectSemanticVersion(oldPackage, newPackage);
+        }
+
         public Version DetermineCorrectSemanticVersion(String oldPackage, String newPackage)
         {
             return DetermineCorrectSemanticVersion(new ZipPackage(oldPackage), new ZipPackage(newPackage));

@@ -70,6 +70,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ExternalNugetRepoTests.cs" />
+    <Compile Include="SemanticVersionEnforcerFactoryTests.cs" />
     <Compile Include="ExecutableTests.cs" />
     <Compile Include="IdenticalVersionTests.cs" />
     <Compile Include="MajorVersionTests.cs" />
@@ -97,6 +99,9 @@
   <ItemGroup>
     <None Include="packages.config" />
     <EmbeddedResource Include="TestData\SemanticVersionEnforcer.1.0.1.0.nupkg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TestData\SemanticVersionEnforcer.2.2.0.0.nupkg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>

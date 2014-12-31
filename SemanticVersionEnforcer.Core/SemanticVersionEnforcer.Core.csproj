@@ -48,6 +48,7 @@
     <Compile Include="MethodDescriptor.cs" />
     <Compile Include="SemanticVersionChecker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SemanticVersionCheckerFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">

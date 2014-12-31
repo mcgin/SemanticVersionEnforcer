@@ -13,7 +13,7 @@ namespace SemanticVersionEnforcer
                 PrintUsage();
                 return 1;
             }
-            var checker = new SemanticVersionChecker();
+            var checker = SemanticVersionCheckerFactory.NewInstance();
 
             Version version;
             try

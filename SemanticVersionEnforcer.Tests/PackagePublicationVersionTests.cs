@@ -10,14 +10,14 @@ namespace SemanticVersionEnforcer.Tests
 {
     internal class PackagePublicationVersionTests
     {
-        private const string testFileName = "tempPackage.nupkg";
+        private const string TestFileName = "tempPackage.nupkg";
         private const string PackageId = "SemanticVersionEnforcer";
         private IPackageRepository repo = PackageRepositoryFactory.Default.CreateRepository("https://packages.nuget.org/api/v2");
             
         [TearDown]
         public void TearDown()
         {
-            File.Delete(testFileName);
+            File.Delete(TestFileName);
         }
 
         [Test]
@@ -33,7 +33,7 @@ namespace SemanticVersionEnforcer.Tests
             var oldPackage = repo.FindPackagesById(packageToCheck).Single(x => x.Version.Equals(oldVersion));
             var newPackage = repo.FindPackagesById(packageToCheck).Single(x => x.Version.Equals(newVersion));
 
-            var expectedVersion = new SemanticVersionChecker().DetermineCorrectSemanticVersion(oldPackage, newPackage);
+            var expectedVersion = SemanticVersionCheckerFactory.NewInstance().DetermineCorrectSemanticVersion(oldPackage, newPackage);
 
             Assert.AreEqual(new Version(2, 2), expectedVersion);
         }
@@ -45,9 +45,9 @@ namespace SemanticVersionEnforcer.Tests
             var newPackageVersion = DynamicallyCreateNewPackageFromSource();
 
             var oldPackage = repo.FindPackagesById(PackageId).Single(item => item.IsLatestVersion);
-            var newPackage = new ZipPackage(testFileName);
+            var newPackage = new ZipPackage(TestFileName);
 
-            var expectedVersion = new SemanticVersionChecker().DetermineCorrectSemanticVersion(oldPackage, newPackage);
+            var expectedVersion = SemanticVersionCheckerFactory.NewInstance().DetermineCorrectSemanticVersion(oldPackage, newPackage);
             var truncatedNewPackageVersion = new Version(newPackageVersion.Major, newPackageVersion.Minor);
 
             Assert.GreaterOrEqual(truncatedNewPackageVersion, expectedVersion);
@@ -67,7 +67,7 @@ namespace SemanticVersionEnforcer.Tests
             builder.Populate(metadata);
             builder.PopulateFiles(".", new[] { new ManifestFile { Source = "SemanticVersionEnforcer.Core.dll" } });
             builder.PopulateFiles(".", new[] { new ManifestFile { Source = "SemanticVersionEnforcer.exe" } });
-            using (var stream = File.Open(testFileName, FileMode.OpenOrCreate))
+            using (var stream = File.Open(TestFileName, FileMode.OpenOrCreate))
             {
                 builder.Save(stream);
             }

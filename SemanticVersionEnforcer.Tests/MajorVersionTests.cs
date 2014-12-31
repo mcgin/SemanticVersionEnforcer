@@ -29,7 +29,7 @@ namespace SemanticVersionEnforcer.Tests
             SetupMocks(new List<String> {oldSource}, new List<String> {newSource}, oldMajor, oldMinor, newMajor,
                 newMinor, out oldPackage, out newPackage);
 
-            var checker = new SemanticVersionChecker();
+            var checker = SemanticVersionCheckerFactory.NewInstance();
             Assert.AreEqual(new Version(3, 0),
                 checker.DetermineCorrectSemanticVersion(oldPackage.Object, newPackage.Object));
         }
@@ -57,7 +57,7 @@ namespace SemanticVersionEnforcer.Tests
             SetupMocks(new List<String> {oldSource}, new List<String> {newSource}, oldMajor, oldMinor, newMajor,
                 newMinor, out oldPackage, out newPackage);
 
-            var checker = new SemanticVersionChecker();
+            var checker = SemanticVersionCheckerFactory.NewInstance();
             Assert.AreEqual(new Version(3, 0),
                 checker.DetermineCorrectSemanticVersion(oldPackage.Object, newPackage.Object));
         }
@@ -86,7 +86,7 @@ namespace SemanticVersionEnforcer.Tests
             SetupMocks(new List<String> {oldSource1, oldSource2}, new List<String> {newSource}, oldMajor, oldMinor,
                 newMajor, newMinor, out oldPackage, out newPackage);
 
-            var checker = new SemanticVersionChecker();
+            var checker = SemanticVersionCheckerFactory.NewInstance();
             Assert.AreEqual(new Version(3, 0),
                 checker.DetermineCorrectSemanticVersion(oldPackage.Object, newPackage.Object));
         }
@@ -109,7 +109,7 @@ namespace SemanticVersionEnforcer.Tests
             SetupMocks(new List<String> {oldSource1}, new List<String> {newSource}, oldMajor, oldMinor, newMajor,
                 newMinor, out oldPackage, out newPackage);
 
-            var checker = new SemanticVersionChecker();
+            var checker = SemanticVersionCheckerFactory.NewInstance();
             Assert.AreEqual(new Version(3, 0),
                 checker.DetermineCorrectSemanticVersion(oldPackage.Object, newPackage.Object));
         }
@@ -139,7 +139,7 @@ namespace SemanticVersionEnforcer.Tests
             SetupMocks(new List<String> {oldSource1, oldSource2}, new List<String> {newSource}, oldMajor, oldMinor,
                 newMajor, newMinor, out oldPackage, out newPackage);
 
-            var checker = new SemanticVersionChecker();
+            var checker = SemanticVersionCheckerFactory.NewInstance();
             Assert.AreEqual(new Version(3, 0),
                 checker.DetermineCorrectSemanticVersion(oldPackage.Object, newPackage.Object));
         }
@@ -167,7 +167,7 @@ namespace SemanticVersionEnforcer.Tests
             SetupMocks(new List<String> {oldSource1, oldSource2}, new List<String> {newSource1, newSource2}, oldMajor,
                 oldMinor, newMajor, newMinor, out oldPackage, out newPackage);
 
-            var checker = new SemanticVersionChecker();
+            var checker = SemanticVersionCheckerFactory.NewInstance();
             Assert.AreEqual(new Version(3, 0),
                 checker.DetermineCorrectSemanticVersion(oldPackage.Object, newPackage.Object));
         }

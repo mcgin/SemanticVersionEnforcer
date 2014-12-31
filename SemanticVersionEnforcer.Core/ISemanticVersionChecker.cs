@@ -3,8 +3,19 @@ using NuGet;
 
 namespace SemanticVersionEnforcer.Core
 {
-    interface ISemanticVersionChecker
+    public interface ISemanticVersionChecker
     {
+        /// <summary> 
+        /// Compares newPackage with the latest version of that package available on the nuget repository 
+        /// (default to nuget.org)
+        /// </summary>
+        /// <returns>The minimum version which the newPackage should have in order to conform to Semantic
+        /// Versioning</returns>
+        /// <param name="newPackage"> The file for the new package which is being compared with the 
+        /// latest package available</param>
+        /// <seealso cref="DetermineCorrectSemanticVersion(IPackage, IPackage)"/> 
+        Version DetermineCorrectSemanticVersion(String newPackage);
+
         /// <summary> 
         /// Compares oldPackage to newPackage and calculates the minimal Major/Minor version combination 
         /// that can satisfy semantic versioning
