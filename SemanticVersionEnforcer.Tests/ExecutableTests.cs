@@ -14,9 +14,10 @@ namespace SemanticVersionEnforcer.Tests
 
             var exitCode = Program.Main(new string[0]);
 
+            var errorMessage = sw.ToString();
             Assert.IsTrue(
-                sw.ToString().Contains("Usage: SemanticVersionEnforcer.exe oldPackage.nupkg newPackage.nupkg"),
-                "The usage message is not correct");
+                errorMessage.Contains("Usage: SemanticVersionEnforcer.exe newPackage.nupkg [oldPackage.nupkg]"),
+                "The usage message is not correct {0}", errorMessage);
             Assert.AreEqual(1, exitCode, "Program exit code is incorrect");
         }
 
@@ -28,22 +29,37 @@ namespace SemanticVersionEnforcer.Tests
 
             var exitCode = Program.Main(new string[0]);
 
-            Assert.IsTrue(sw.ToString().Contains("Error you must provide 2 package locations as arguments"),
-                "The error message is not correct");
+            var errorMessage = sw.ToString();
+            Assert.IsTrue(errorMessage.Contains("Error you must provide at least one package location as an argument"),
+                "The error message is not correct: {0}", errorMessage);
             Assert.AreEqual(1, exitCode, "Program exit code is incorrect");
         }
 
         [Test]
-        public void GivenTheExecutableFile_WhenIRunItWithOneArgument_ThenAnAppropriateErrorMessageIsPrinted()
+        [Category("Integration")]
+        public void GivenTheExecutableFile_WhenIRunItWithAValidPackageAsAnArguemnt_ThenItReturnsTheCorrectVersion()
         {
             var sw = new StringWriter();
-            Console.SetError(sw);
+            Console.SetOut(sw);
 
-            var exitCode = Program.Main(new string[1] {"arg1"});
+            var exitCode = Program.Main(new string[1] { "TestData/SemanticVersionEnforcer.1.0.1.0.nupkg" });
 
-            Assert.IsTrue(sw.ToString().Contains("Error you must provide 2 package locations as arguments"),
-                "The error message is not correct");
-            Assert.AreEqual(1, exitCode, "Program exit code is incorrect");
+            var result = Decimal.Parse(sw.ToString());
+            Assert.IsTrue(result > 1.0m);
+            Assert.AreEqual(0, exitCode, "Program exit code is incorrect");
+        }
+
+        [Test]
+        public void GivenTheExecutableFile_WhenIRunItWithTwoValidPackagesAsAnArguemnt_ThenItReturnsTheCorrectVersion()
+        {
+            var sw = new StringWriter();
+            Console.SetOut(sw);
+
+            var exitCode = Program.Main(new string[2] { "TestData/SemanticVersionEnforcer.2.2.0.0.nupkg", "TestData/SemanticVersionEnforcer.1.0.1.0.nupkg" });
+
+            var result = Decimal.Parse(sw.ToString());
+            Assert.AreEqual(result, 2.0m, "Version Number is incorrect");
+            Assert.AreEqual(0, exitCode, "Program exit code is incorrect");
         }
 
         [Test]
