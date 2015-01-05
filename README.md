@@ -7,10 +7,20 @@ Try it out
 If you don't wish to compile the code yourself you can obtain it using Nuget:
 ```
 NuGet.exe install SemanticVersionEnforcer -OutputDirectory SemanticVersionEnforcer  -ExcludeVersion
+#Need to copy the nuget.core dll into the executable directory
 copy .\SemanticVersionEnforcer\Nuget.Core\lib\net40-Client\NuGet.Core.dll .\SemanticVersionEnforcer\SemanticVersionEnforcer\lib\net45
 ```
-All you need to execute the tool will be in the `.\SemanticVersionEnforcer\SemanticVersionEnforcer\lib\net45` directory, simply copy all the files in that directory to a convenient location  
-You can test it by comparing the Semantic Version Enforcer package against itself which should print out the latest stable Major/Minor version.
+All you need to execute the tool will be in the `.\SemanticVersionEnforcer\SemanticVersionEnforcer\lib\net45` directory, simply copy all the files in that directory to a convenient location.  Usage is like so:
+```
+SemanticVersionEnforcer.exe newPackage.nupkg [oldPackage.nupkg]
+```
+
+If you pass a single nupkg file, it will check that package against the latest version on nuget
+```
+.\SemanticVersionEnforcer\SemanticVersionEnforcer\lib\net45\SemanticVersionEnforcer .\SemanticVersionEnforcer\SemanticVersionEnforcer\SemanticVersionEnforcer.nupkg
+```
+
+Alternatively if you have the two nupkg files locally can pass both of those
 ```
 .\SemanticVersionEnforcer\SemanticVersionEnforcer\lib\net45\SemanticVersionEnforcer .\SemanticVersionEnforcer\SemanticVersionEnforcer\SemanticVersionEnforcer.nupkg .\SemanticVersionEnforcer\SemanticVersionEnforcer\SemanticVersionEnforcer.nupkg
 ```
